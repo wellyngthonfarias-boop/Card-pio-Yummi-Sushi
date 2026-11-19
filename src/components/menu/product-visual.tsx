@@ -32,7 +32,7 @@ export function ProductVisual({ product, detail = false }: { product: MenuProduc
   const [x, y, w, h] = crop ?? [0, 0, 1, 1];
   const ratio = width * w / (height * h);
   return <div className={`product-visual ${detail ? "detail-visual" : ""}`}>
-    {crop ? <div className="product-visual-window" style={{ "--crop-ratio": ratio } as CSSProperties}><Image src={product.image} alt={alt} width={width} height={height} style={{ width: `${100 / w}%`, height: `${100 / h}%`, left: `${-100 * x / w}%`, top: `${-100 * y / h}%` }} /></div> : <Image src={product.image} alt={alt} width={width} height={height} />}
+    {crop ? <div className="product-visual-window" style={{ "--crop-ratio": ratio } as CSSProperties}><Image src={product.image} alt={alt} width={width} height={height} style={{ width: `${100 / w}%`, height: `${100 / h}%`, left: `${-100 * x / w}%`, top: `${-100 * y / h}%` }} /></div> : <Image src={product.image} alt={alt} width={width} height={height} style={{ width: "100%", height: "100%", objectFit: "contain", minHeight: 0 }} />}
     {product.imageKind !== "photo" && <span className="visual-credit">Imagem ilustrativa</span>}
   </div>;
 }

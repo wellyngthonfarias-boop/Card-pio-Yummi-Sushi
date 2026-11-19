@@ -1563,10 +1563,10 @@
     "optionalAddons": [],
     "ingredients": [],
     "pieceCount": null,
-    "imageKind": "photo",
-    "image": "/images/products/coca-zero-2l.webp",
-    "imageWidth": 1000,
-    "imageHeight": 1000
+    "imageKind": "illustration",
+    "image": "/images/products/coca-zero-2l-styled.webp",
+    "imageWidth": 900,
+    "imageHeight": 675
   },
   {
     "id": "delriozinho",

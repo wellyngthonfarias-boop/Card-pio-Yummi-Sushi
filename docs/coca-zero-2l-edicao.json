@@ -1,0 +1,7 @@
+{
+  "tool": "image_gen built-in",
+  "asset": "public/images/products/coca-zero-2l-styled.webp",
+  "prompt": "Edit target: first image, the supplied real Coca-Cola Zero Açúcar 2 litre bottle. Style reference only: second image. Replace the white background around the first image's bottle with the same premium black textured background, red flowing ribbons, dark-red Japanese seigaiha pattern and subtle gold accents as the second image. Preserve the exact bottle shape, black cap, red label and 2 litre identity from the FIRST image; do not substitute the second image's 1 litre bottle. Wide landscape 4:3 composition. The complete bottle must be centered, upright, uncropped, with clear empty margins above the cap and below the base, taking at most 80% of canvas height. No dish, tray or pedestal. No text outside the bottle, no headline, no price badge, no watermark. The price will be rendered separately by the website. This image will be displayed whole using object-fit contain; all of the bottle must fit comfortably in the frame.",
+  "price": 13,
+  "framing": "Imagem integral, sem recorte"
+}
