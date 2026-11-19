@@ -1,6 +1,6 @@
 # Yummi Sushi Delivery
 
-Para publicar a partir do GitHub, veja [o guia da Vercel](docs/publicacao-vercel.md). A configuração de instalação, build, Node.js e saída estática já está incluída no projeto.
+Para publicar a partir do GitHub, veja [o guia do Cloudflare Pages](docs/publicacao-cloudflare.md). A configuração da saída estática está em `wrangler.toml`; o comando `pnpm build:cloudflare` compila e confere os limites de arquivos. A [configuração anterior da Vercel](docs/publicacao-vercel.md) também foi preservada.
 
 Base local de um cardápio digital mobile-first, com Next.js (App Router), TypeScript, Tailwind CSS e Lucide React. Requer Node.js 22.13+ da linha 22 ou Node.js 24+ (recomendado), e pnpm 11. A revisão foi executada com Node.js 24.22.3.
 

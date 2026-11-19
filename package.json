@@ -6,6 +6,7 @@
   "scripts": {
     "dev": "next dev --webpack",
     "build": "next build --webpack",
+    "build:cloudflare": "pnpm run build && node scripts/verify-cloudflare-output.mjs",
     "typecheck": "tsc --noEmit",
     "lint": "eslint . --max-warnings=0",
     "verify:menu": "node scripts/verify-menu.mjs",

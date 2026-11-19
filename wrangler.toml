@@ -1,0 +1,4 @@
+# Cloudflare Pages: exportação estática do Next.js, sem Functions.
+name = "yummi-sushi-delivery"
+pages_build_output_dir = "./out"
+compatibility_date = "2026-11-19"

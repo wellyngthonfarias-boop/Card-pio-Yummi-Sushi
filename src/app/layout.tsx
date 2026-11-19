@@ -5,6 +5,7 @@ import { SelectionRoot } from "@/components/cart/selection-root";
 import { themeInitializationScript } from "@/lib/theme";
 
 const siteUrl = process.env.NEXT_PUBLIC_SITE_URL
+  || process.env.CF_PAGES_URL
   || (process.env.VERCEL_PROJECT_PRODUCTION_URL ? `https://${process.env.VERCEL_PROJECT_PRODUCTION_URL}` : undefined)
   || (process.env.VERCEL_URL ? `https://${process.env.VERCEL_URL}` : undefined)
   || "https://yummi-sushi-delivery.beadedcatkin.chatgpt.site";
