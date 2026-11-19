@@ -53,9 +53,12 @@ header nav > a.hidden { display: none; }
 .menu-heading { display: flex; flex-direction: column; gap: 20px; align-items: center; text-align: center; margin-bottom: 32px; }
 .menu-heading h2 { font-family: var(--font-display); font-size: clamp(2.25rem, 4vw, 3rem); margin-top: 12px; }
 .menu-heading > p { color: var(--color-muted); font-size: .875rem; line-height: 1.7; }
-.category-scroll { overflow-x: auto; margin-inline: -20px; padding: 4px 20px 14px; }
-.category-list { display: flex; width: max-content; gap: 10px; margin-inline: auto; }
-.category-button { min-height: 44px; white-space: nowrap; padding: 10px 24px; border-radius: 99px; border: 1px solid var(--border); background: var(--color-surface); color: var(--color-muted); font-size: .875rem; cursor: pointer; transition: background 180ms, color 180ms; }
+.category-scroll { padding-block: 10px 18px; scroll-margin-top: 16px; }
+.category-list { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 8px; width: 100%; margin-inline: auto; }
+.category-button { min-width: 0; min-height: 60px; white-space: normal; overflow-wrap: anywhere; padding: 10px 6px; border-radius: 16px; border: 1px solid var(--border); background: var(--color-surface); color: var(--color-muted); font-size: .875rem; line-height: 1.4; cursor: pointer; transition: background 180ms, color 180ms; }
+.category-button:first-child { grid-column: 1 / -1; min-height: 44px; border-radius: 99px; }
+@media (min-width: 768px) { .category-list { grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 10px; } }
+@media (min-width: 1024px) { .category-list { grid-template-columns: repeat(6, minmax(0, 1fr)); } }
 .category-button:hover { border-color: #e9b95580; color: var(--color-foreground); }
 .category-button.active { background: var(--color-primary); border-color: var(--color-primary); color: #ffffff; }
 .demo-note { margin-block: 12px 28px; padding-left: 12px; border-left: 2px solid #e9b95588; color: var(--color-muted); font-size: .875rem; line-height: 1.7; }
@@ -247,9 +250,7 @@ body:has(.floating-selection) { padding-bottom: calc(100px + env(safe-area-inset
 .menu-heading { margin-bottom: 16px; gap: 8px; }
 .menu-heading h2 { margin-top: 0; font-size: 2rem; }
 .menu-search { margin-bottom: 12px; }
-.category-scroll { position: sticky; top: 0; z-index: 20; background: var(--menu-background); border-bottom: 1px solid var(--border); padding-block: 10px; scroll-margin-top: 0; }
-.category-button { padding-inline: 18px; }
-#produtos { scroll-margin-top: 86px; }
+#produtos { scroll-margin-top: 20px; }
 .result-count { margin-block: 12px 16px; }
 .menu-group + .menu-group { margin-top: 32px; }
 .group-heading { margin-bottom: 10px; padding-bottom: 12px; }
