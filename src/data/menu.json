@@ -1357,12 +1357,8 @@
     "optionalAddons": [],
     "ingredients": [],
     "pieceCount": null,
-    "imageKind": "illustration",
-    "image": "/images/promocionais/agua.webp",
-    "imageLayout": "poster",
-    "imageWidth": 900,
-    "imageHeight": 1200,
-    "imagePrice": 5
+    "imageKind": "placeholder",
+    "image": ""
   },
   {
     "id": "coca-1l",
@@ -1410,7 +1406,7 @@
     "id": "coca-lata",
     "category": "bebidas",
     "name": "Coca-Cola",
-    "price": 6,
+    "price": 5,
     "unitLabel": "Lata",
     "description": "",
     "sourcePage": 6,
@@ -1425,7 +1421,7 @@
     "imageLayout": "poster",
     "imageWidth": 900,
     "imageHeight": 1200,
-    "imagePrice": 6
+    "imagePrice": 5
   },
   {
     "id": "delrio-1l",
@@ -1443,27 +1439,6 @@
     "pieceCount": null,
     "imageKind": "illustration",
     "image": "/images/promocionais/delrio-1l.webp",
-    "imageLayout": "poster",
-    "imageWidth": 900,
-    "imageHeight": 1200,
-    "imagePrice": 8
-  },
-  {
-    "id": "guarana-1l",
-    "category": "bebidas",
-    "name": "Guaraná Antarctica",
-    "price": 8,
-    "unitLabel": "1 litro",
-    "description": "",
-    "sourcePage": 6,
-    "source": "restaurant-menu",
-    "availability": "unconfirmed",
-    "featured": false,
-    "optionalAddons": [],
-    "ingredients": [],
-    "pieceCount": null,
-    "imageKind": "illustration",
-    "image": "/images/promocionais/guarana-1l.webp",
     "imageLayout": "poster",
     "imageWidth": 900,
     "imageHeight": 1200,
@@ -1515,7 +1490,7 @@
     "id": "sprite",
     "category": "bebidas",
     "name": "Sprite",
-    "price": 6,
+    "price": 5,
     "unitLabel": "350 ml",
     "description": "",
     "sourcePage": 6,
@@ -1530,34 +1505,13 @@
     "imageLayout": "poster",
     "imageWidth": 900,
     "imageHeight": 1200,
-    "imagePrice": 6
-  },
-  {
-    "id": "guarana-350",
-    "category": "bebidas",
-    "name": "Guaraná Antarctica",
-    "price": 6,
-    "unitLabel": "350 ml",
-    "description": "",
-    "sourcePage": 6,
-    "source": "restaurant-menu",
-    "availability": "unconfirmed",
-    "featured": false,
-    "optionalAddons": [],
-    "ingredients": [],
-    "pieceCount": null,
-    "imageKind": "illustration",
-    "image": "/images/promocionais/guarana-350.webp",
-    "imageLayout": "poster",
-    "imageWidth": 900,
-    "imageHeight": 1200,
-    "imagePrice": 6
+    "imagePrice": 5
   },
   {
     "id": "coca-zero-300",
     "category": "bebidas",
     "name": "Coca-Cola Zero",
-    "price": 6,
+    "price": 5,
     "unitLabel": "Lata · 300 ml",
     "description": "",
     "sourcePage": 6,
@@ -1572,7 +1526,7 @@
     "imageLayout": "poster",
     "imageWidth": 900,
     "imageHeight": 1200,
-    "imagePrice": 6
+    "imagePrice": 5
   },
   {
     "id": "coca-zero-1l",
@@ -1594,6 +1548,25 @@
     "imageWidth": 900,
     "imageHeight": 1200,
     "imagePrice": 8
+  },
+  {
+    "id": "coca-zero-2l",
+    "category": "bebidas",
+    "name": "Coca-Cola Zero",
+    "price": 13,
+    "unitLabel": "2 litros",
+    "description": "",
+    "sourcePage": 6,
+    "source": "restaurant-menu",
+    "availability": "unconfirmed",
+    "featured": false,
+    "optionalAddons": [],
+    "ingredients": [],
+    "pieceCount": null,
+    "imageKind": "photo",
+    "image": "/images/products/coca-zero-2l.webp",
+    "imageWidth": 1000,
+    "imageHeight": 1000
   },
   {
     "id": "delriozinho",

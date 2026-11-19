@@ -473,17 +473,6 @@
     "prompt": "Use case: precise-object-edit. Edit this existing promotional artwork. Remove ONLY the entire plate, foam tray, white polystyrene platter or black saucer under or behind the beverage. Seamlessly fill that removed area with the same black textured background and continuous red ribbon where appropriate. Leave ONLY the SINGLE beverage bottle or can standing naturally on the dark surface, with a subtle realistic contact shadow. No plates, trays, saucers, pedestals, dishes, coasters or stands of any kind. Preserve the beverage itself exactly: brand, label, cap, container shape, size, position, color, liquid, condensation, lighting and all package lettering. Preserve all artwork text, subtitle, quantity/volume, the exact price R$ 6,00, gold/red price badge, footer \"Imagem ilustrativa\", background motif, leaves, ribbons and frame. Do not change any price, branding, text or framing, do not add a second product, do not crop the product. The result must be the same complete promotional artwork with the support dish removed."
   },
   {
-    "id": "agua",
-    "name": "Água com gás",
-    "unitLabel": "500 ml",
-    "price": 5,
-    "origin": "generated",
-    "webBytes": 112788,
-    "socialBytes": 342119,
-    "source": "exec-95e2296a-56cb-439d-96b2-04478207c3ed.png",
-    "prompt": "Use case: compositing. Create ONE professional 3:4 portrait promotional artwork. Input 1 is the real product: Crystal sparkling mineral water 500 ml bottle, pale transparent BLUE PET with relief water-droplet shapes, BLACK CAP, BLACK LABEL with white drop, white vertical crystal wordmark, cyan \"com gás\" and \"500 ml\". Preserve the bottle identity, proportions and label; remove surrounding white only. Do not replace with a can or glass, do not invent Yummi water branding. Input 2 is graphic style only: black textured surface, dark red Japanese seigaiha waves upper left, flowing red ribbons with restrained gold edge, blurred green leaves at outer edges. ONE whole real water bottle centered, beautiful realistic studio highlights and natural grounded shadow, NO plate, NO sushi, NO additional objects. Exact heading \"Água com gás\", subtitle \"500 ml\", large bottom glossy red price badge with gold outline and exact gold numerals \"R$ 5,00\". Discreet footer \"Imagem ilustrativa\". No extra text, brand claims, restaurant logo, phone or address. Entire bottle and all price text visible."
-  },
-  {
     "id": "coca-1l",
     "name": "Coca-Cola",
     "unitLabel": "1 litro",
@@ -509,12 +498,12 @@
     "id": "coca-lata",
     "name": "Coca-Cola",
     "unitLabel": "Lata",
-    "price": 6,
+    "price": 5,
     "origin": "generated",
-    "webBytes": 110334,
-    "socialBytes": 326873,
-    "source": "exec-d37b6af9-8bec-447c-bab5-adc47e6b4b7e.png",
-    "prompt": "Use case: precise-object-edit. Edit this existing promotional artwork. Remove ONLY the entire plate, foam tray, white polystyrene platter or black saucer under or behind the beverage. Seamlessly fill that removed area with the same black textured background and continuous red ribbon where appropriate. Leave ONLY the SINGLE beverage bottle or can standing naturally on the dark surface, with a subtle realistic contact shadow. No plates, trays, saucers, pedestals, dishes, coasters or stands of any kind. Preserve the beverage itself exactly: brand, label, cap, container shape, size, position, color, liquid, condensation, lighting and all package lettering. Preserve all artwork text, subtitle, quantity/volume, the exact price R$ 6,00, gold/red price badge, footer \"Imagem ilustrativa\", background motif, leaves, ribbons and frame. Do not change any price, branding, text or framing, do not add a second product, do not crop the product. The result must be the same complete promotional artwork with the support dish removed."
+    "webBytes": 99764,
+    "socialBytes": 291238,
+    "source": "exec-5e8321e8-e004-48bc-9247-0ba2b526b37d.png",
+    "prompt": "Edit this existing promotional image. Change ONLY the price text in the bottom red price badge from R$ 6,00 to exactly R$ 5,00. Preserve everything else: product, label, quantity/volume, black and red background, typography and image layout. No other changes."
   },
   {
     "id": "delrio-1l",
@@ -526,17 +515,6 @@
     "socialBytes": 310324,
     "source": "exec-690bbd92-ffb3-480b-ba18-f63b7c9e25d4.png",
     "prompt": "Use case: compositing. Create ONE professional 3:4 promotional poster using input 1 as the exact real product reference: Delrio Guaraná ONE LITER greenish PET bottle, blue cap, green label with actual red and white delrio wordmark, golden-brown transparent guaraná soda. Preserve the label and bottle proportions; cleanly remove its wooden-photo background. Do NOT substitute a cola bottle, red cap, red label or 2-liter proportions. Input 2 is style only: black textured background, subtle dark red Japanese waves upper left, sweeping red ribbons and restrained gold accents, blurred green leaves at edges. One whole bottle centered, appetizing professional product lighting, natural shadow; NO plate, NO food. Exact top text \"Delrio Guaraná\", subtitle \"1 litro\". Bottom prominent glossy red badge gold outline, exact price \"R$ 8,00\" in large gold numerals. Small footer \"Imagem ilustrativa\". No extra claims, address, contact, discounts or restaurant logo. Entire bottle and all lettering visible."
-  },
-  {
-    "id": "guarana-1l",
-    "name": "Guaraná Antarctica",
-    "unitLabel": "1 litro",
-    "price": 8,
-    "origin": "generated",
-    "webBytes": 92782,
-    "socialBytes": 280942,
-    "source": "exec-09d38568-1ba2-4557-8209-8b7b9b1e33d7.png",
-    "prompt": "Use case: precise-object-edit. Edit this existing promotional artwork. Remove ONLY the entire plate, foam tray, white polystyrene platter or black saucer under or behind the beverage. Seamlessly fill that removed area with the same black textured background and continuous red ribbon where appropriate. Leave ONLY the SINGLE beverage bottle or can standing naturally on the dark surface, with a subtle realistic contact shadow. No plates, trays, saucers, pedestals, dishes, coasters or stands of any kind. Preserve the beverage itself exactly: brand, label, cap, container shape, size, position, color, liquid, condensation, lighting and all package lettering. Preserve all artwork text, subtitle, quantity/volume, the exact price R$ 8,00, gold/red price badge, footer \"Imagem ilustrativa\", background motif, leaves, ribbons and frame. Do not change any price, branding, text or framing, do not add a second product, do not crop the product. The result must be the same complete promotional artwork with the support dish removed."
   },
   {
     "id": "delrio-2l",
@@ -564,34 +542,23 @@
     "id": "sprite",
     "name": "Sprite",
     "unitLabel": "350 ml",
-    "price": 6,
+    "price": 5,
     "origin": "generated",
-    "webBytes": 100462,
-    "socialBytes": 303028,
-    "source": "exec-0c124e5e-5454-4fe5-a67a-3d23bdfc32bd.png",
-    "prompt": "Use case: precise-object-edit. Edit this existing promotional artwork. Remove ONLY the entire plate, foam tray, white polystyrene platter or black saucer under or behind the beverage. Seamlessly fill that removed area with the same black textured background and continuous red ribbon where appropriate. Leave ONLY the SINGLE beverage bottle or can standing naturally on the dark surface, with a subtle realistic contact shadow. No plates, trays, saucers, pedestals, dishes, coasters or stands of any kind. Preserve the beverage itself exactly: brand, label, cap, container shape, size, position, color, liquid, condensation, lighting and all package lettering. Preserve all artwork text, subtitle, quantity/volume, the exact price R$ 6,00, gold/red price badge, footer \"Imagem ilustrativa\", background motif, leaves, ribbons and frame. Do not change any price, branding, text or framing, do not add a second product, do not crop the product. The result must be the same complete promotional artwork with the support dish removed."
-  },
-  {
-    "id": "guarana-350",
-    "name": "Guaraná Antarctica",
-    "unitLabel": "350 ml",
-    "price": 6,
-    "origin": "generated",
-    "webBytes": 118876,
-    "socialBytes": 335352,
-    "source": "exec-3f887ae9-330f-4e92-a240-68deff108b2b.png",
-    "prompt": "Use case: precise-object-edit. Edit this existing promotional artwork. Remove ONLY the entire plate, foam tray, white polystyrene platter or black saucer under or behind the beverage. Seamlessly fill that removed area with the same black textured background and continuous red ribbon where appropriate. Leave ONLY the SINGLE beverage bottle or can standing naturally on the dark surface, with a subtle realistic contact shadow. No plates, trays, saucers, pedestals, dishes, coasters or stands of any kind. Preserve the beverage itself exactly: brand, label, cap, container shape, size, position, color, liquid, condensation, lighting and all package lettering. Preserve all artwork text, subtitle, quantity/volume, the exact price R$ 6,00, gold/red price badge, footer \"Imagem ilustrativa\", background motif, leaves, ribbons and frame. Do not change any price, branding, text or framing, do not add a second product, do not crop the product. The result must be the same complete promotional artwork with the support dish removed."
+    "webBytes": 91152,
+    "socialBytes": 262735,
+    "source": "exec-9acc16a4-9d33-4756-a474-395c93d7ea48.png",
+    "prompt": "Edit this existing promotional image. Change ONLY the price text in the bottom red price badge from R$ 6,00 to exactly R$ 5,00. Preserve everything else: product, label, quantity/volume, black and red background, typography and image layout. No other changes."
   },
   {
     "id": "coca-zero-300",
     "name": "Coca-Cola Zero",
     "unitLabel": "Lata · 300 ml",
-    "price": 6,
+    "price": 5,
     "origin": "generated",
-    "webBytes": 106788,
-    "socialBytes": 316187,
-    "source": "exec-1facafd2-6913-4e0e-8c9b-1f38e146cbd1.png",
-    "prompt": "Use case: precise-object-edit. Edit this existing promotional artwork. Remove ONLY the entire plate, foam tray, white polystyrene platter or black saucer under or behind the beverage. Seamlessly fill that removed area with the same black textured background and continuous red ribbon where appropriate. Leave ONLY the SINGLE beverage bottle or can standing naturally on the dark surface, with a subtle realistic contact shadow. No plates, trays, saucers, pedestals, dishes, coasters or stands of any kind. Preserve the beverage itself exactly: brand, label, cap, container shape, size, position, color, liquid, condensation, lighting and all package lettering. Preserve all artwork text, subtitle, quantity/volume, the exact price R$ 6,00, gold/red price badge, footer \"Imagem ilustrativa\", background motif, leaves, ribbons and frame. Do not change any price, branding, text or framing, do not add a second product, do not crop the product. The result must be the same complete promotional artwork with the support dish removed."
+    "webBytes": 99688,
+    "socialBytes": 286958,
+    "source": "exec-54d3f11b-bd2a-42bb-9cbc-a076cbdd888e.png",
+    "prompt": "Edit this existing promotional image. Change ONLY the price text in the bottom red price badge from R$ 6,00 to exactly R$ 5,00. Preserve everything else: product, label, quantity/volume, black and red background, typography and image layout. No other changes."
   },
   {
     "id": "coca-zero-1l",

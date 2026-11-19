@@ -24,6 +24,7 @@ const categoryCrops: Partial<Record<MenuProduct["category"], Crop>> = {
 };
 
 export function ProductVisual({ product, detail = false }: { product: MenuProduct; detail?: boolean }) {
+  if (!product.image) return null;
   const width = product.imageWidth ?? 900;
   const height = product.imageHeight ?? 700;
   const alt = product.imageKind === "photo" ? product.name : `Imagem ilustrativa: ${product.name}; a apresentação real pode variar`;

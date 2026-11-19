@@ -9,9 +9,9 @@ import { formatMenuPrice } from "../src/lib/format.ts";
 const products = JSON.parse(readFileSync(new URL("../src/data/menu.json", import.meta.url), "utf8"));
 const categories = [...new Set(products.map((p) => p.category))].map((id) => ({ id, label: id, description: "" }));
 
-test("catálogo real preserva 57 IDs únicos e não inclui dados fictícios ou estoque presumido", () => {
-  assert.equal(products.length, 57);
-  assert.equal(new Set(products.map((p) => p.id)).size, 57);
+test("catálogo real preserva 56 IDs únicos e não inclui dados fictícios ou estoque presumido", () => {
+  assert.equal(products.length, 56);
+  assert.equal(new Set(products.map((p) => p.id)).size, 56);
   for (const product of products) {
     assert.equal(product.source, "restaurant-menu");
     assert.equal(product.availability, "unconfirmed");
@@ -19,7 +19,7 @@ test("catálogo real preserva 57 IDs únicos e não inclui dados fictícios ou e
     assert.ok(Array.isArray(product.optionalAddons));
     assert.equal(product.optionalAddons.length, 0);
     assert.equal(product.featured, false);
-    assert.ok(product.image.startsWith("/images/"));
+    assert.ok(product.image.startsWith("/images/") || (product.id === "agua" && product.image === ""));
     assert.ok(product.pieceCount === null || Number.isInteger(product.pieceCount));
     assert.equal(product.allergens, undefined);
     assert.equal(product.nutrition, undefined);
@@ -27,11 +27,11 @@ test("catálogo real preserva 57 IDs únicos e não inclui dados fictícios ou e
 });
 
 test("filtros mantêm as categorias e a ordem dos itens, inclusive com pesquisa vazia", () => {
-  assert.equal(filterMenuProducts(products, categories, "todos", "   ").length, 57);
+  assert.equal(filterMenuProducts(products, categories, "todos", "   ").length, 56);
   for (const category of categories) {
     assert.deepEqual(filterMenuProducts(products, categories, category.id, ""), products.filter((p) => p.category === category.id));
   }
-  assert.equal(filterMenuProducts(products, categories, "bebidas", "").length, 15);
+  assert.equal(filterMenuProducts(products, categories, "bebidas", "").length, 14);
 });
 
 test("busca ignora acentos, caixa e espaços e procura ingredientes da composição", () => {
