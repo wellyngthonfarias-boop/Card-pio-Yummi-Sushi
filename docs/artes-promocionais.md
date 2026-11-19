@@ -2,7 +2,7 @@
 
 ## Escopo
 
-Quatro artes fornecidas pelo responsável substituem as imagens dos combos 1, 2, 5 e 8. O preço do Combo 8 foi confirmado pelo responsável em R$ 45,00 e corrigido na imagem. O Combo 9 mantém a fotografia já fornecida anteriormente.
+Quatro artes fornecidas pelo responsável substituem as imagens dos combos 1, 2, 5 e 8. O preço do Combo 8 foi confirmado pelo responsável em R$ 45,00 e corrigido na imagem. O Combo 9 usa a nova arte fornecida em “Combo de Sushi Irresistível.png”, com o fundo harmonizado por edição na ferramenta integrada ImageGen: preto texturizado, ondas japonesas vermelhas e detalhes dourados, mantendo a bandeja e o preço de R$ 35,00. A versão editada está identificada como ilustrativa no cardápio, com enquadramento focado na comida.
 
 Os outros 52 produtos receberam propostas de artes ilustrativas com a ferramenta integrada ImageGen, usando a arte fornecida como referência de fundo, cores e tratamento gráfico. Não foram utilizadas imagens encontradas na internet. O logotipo oficial não foi redesenhado nem aplicado por geração.
 

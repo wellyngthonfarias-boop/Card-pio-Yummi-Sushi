@@ -377,14 +377,18 @@
         "ingredients": ""
       }
     ],
-    "image": "/images/products/combo-9.webp",
+    "image": "/images/promocionais/combo-9.webp",
     "source": "restaurant-menu",
     "availability": "unconfirmed",
     "featured": false,
     "optionalAddons": [],
     "ingredients": [],
     "pieceCount": 18,
-    "imageKind": "photo"
+    "imageKind": "illustration",
+    "imageLayout": "poster",
+    "imageWidth": 900,
+    "imageHeight": 1200,
+    "imagePrice": 35
   },
   {
     "id": "combo-10",

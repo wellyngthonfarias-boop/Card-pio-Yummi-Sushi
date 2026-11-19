@@ -88,6 +88,17 @@
     "prompt": "Use case: precise-object-edit. Edit the supplied promotional artwork. Change ONLY the price badge from \"R$ 35,00\" to exactly \"R$ 45,00\", matching the existing gold typeface, glossy red background, gold border, perspective and lighting. Preserve the full image composition, all twenty sushi pieces, tray, background, red ribbons and all other elements. Do not add food, text, logos or captions. This is the Combo 8; confirmed correct price R$ 45,00."
   },
   {
+    "id": "combo-9",
+    "name": "9º Combo",
+    "unitLabel": "18 peças",
+    "price": 35,
+    "origin": "generated",
+    "webBytes": 158998,
+    "socialBytes": 422228,
+    "source": "exec-4b969aae-2acc-4181-afa9-65eb1bb74ffe.png",
+    "prompt": "Use case: precise-object-edit / compositing. Edit the FIRST reference image (Combo 9 supplied by the restaurant). The SECOND reference is ONLY the visual style guide for the background and price badge. Create a polished 3:4 vertical promotional poster consistent with the second image. Preserve the FIRST image's complete sushi tray, its white foam tray, every sushi piece, ingredients, quantity, positions, appearance and realistic food textures. Do not use sushi from the second image. Do not add/remove/rearrange food. Replace only surrounding backdrop and graphic decoration with the second image's black textured surface, subtle dark-red Japanese seigaiha wave pattern in the upper left, glossy flowing red ribbons on the sides and a few soft out-of-focus green leaves near corners. Remove the first image's top headline, slogan, brush-stroke decorations and 'Peça agora' button so the food is the hero, matching the second image's clean layout. Keep the full horizontal tray large and centered approximately between 25% and 76% of the canvas height, fully visible without clipping. Put one red rounded glossy price badge with fine gold edge below the tray, styled like the second image, reading exactly 'R$ 35,00', with white R$ and large golden numerals. No other text, no logo, no watermark. Maintain clean premium black, vivid red and restrained gold visual identity. Do not change the food's identity or the price. Background is opaque."
+  },
+  {
     "id": "combo-10",
     "name": "10º Combo",
     "unitLabel": "2 temakis",
