@@ -1,0 +1,19 @@
+// Ilustrações vetoriais originais, locais e provisórias. Sem imagens de terceiros.
+import { mkdirSync, writeFileSync } from "node:fs";
+const defs = `<defs><radialGradient id="bg"><stop stop-color="#34312e"/><stop offset="1" stop-color="#151515"/></radialGradient><linearGradient id="fish" x2=".5" y2="1"><stop stop-color="#ff9c70"/><stop offset=".5" stop-color="#ef6c44"/><stop offset="1" stop-color="#d44428"/></linearGradient><linearGradient id="rice" x2="0" y2="1"><stop stop-color="#fff8e7"/><stop offset="1" stop-color="#c6c2ad"/></linearGradient><pattern id="stripes" width="26" height="26" patternUnits="userSpaceOnUse" patternTransform="rotate(-25)"><path d="M0 0V26" stroke="#ffddba" stroke-opacity=".65" stroke-width="6"/></pattern><pattern id="grain" width="13" height="15" patternUnits="userSpaceOnUse"><ellipse cx="5" cy="7" rx="2" ry="4" fill="#fff" opacity=".22"/></pattern></defs>`;
+function nigiri(x,y,r=0) { return `<g transform="translate(${x} ${y}) rotate(${r})"><ellipse cy="45" rx="83" ry="25" fill="#000" opacity=".35"/><rect x="-75" y="-12" width="150" height="68" rx="34" fill="url(#rice)"/><rect x="-75" y="-12" width="150" height="68" rx="34" fill="url(#grain)"/><path d="M-90-20Q0-65 88-15L72 20Q0 5-78 28Z" fill="url(#fish)"/><path d="M-90-20Q0-65 88-15L72 20Q0 5-78 28Z" fill="url(#stripes)"/></g>`; }
+function roll(x,y,hot=false) { return `<g transform="translate(${x} ${y})"><ellipse cy="42" rx="53" ry="19" fill="#000" opacity=".35"/><path d="M-47 0V36Q0 68 47 36V0Z" fill="${hot?'#a56b2d':'#e1dfcd'}"/><ellipse rx="48" ry="36" fill="${hot?'#d3a259':'url(#rice)'}"/><ellipse rx="34" ry="25" fill="#26372c"/><ellipse rx="27" ry="20" fill="#f4ede0"/><path d="M-20-9L4-15 22 0 9 15-19 8Z" fill="#f17c51"/><path d="M-5-13L8-10 4 12-8 12Z" fill="#77a14a"/><ellipse rx="46" ry="34" fill="url(#grain)"/></g>`; }
+function sashimi(x,y,r=0) { return `<g transform="translate(${x} ${y}) rotate(${r})"><path d="M-65-37L55-24 68 26-52 40Z" fill="url(#fish)"/><path d="M-65-37L55-24 68 26-52 40Z" fill="url(#stripes)"/></g>`; }
+function temaki() { return `<g transform="translate(450 340) rotate(-25)"><path d="M-130-90L135-90 40 185Q-8 130-130-90" fill="#1c3026" stroke="#526443" stroke-width="3"/><ellipse cy="-90" rx="133" ry="66" fill="url(#rice)"/><ellipse cy="-90" rx="113" ry="49" fill="#29412a"/>${sashimi(-45,-96,15)}${sashimi(35,-87,-10)}<path d="M-55-155L-45-80M0-157L10-77M55-148L50-80" stroke="#80a650" stroke-width="14"/></g>`; }
+const dishes = {
+combinado: nigiri(320,235,-15)+nigiri(480,240,-10)+sashimi(620,300,25)+sashimi(645,350,25)+sashimi(665,400,25)+roll(290,370)+roll(400,385)+roll(510,405)+roll(330,465)+roll(440,480),
+niguiri: nigiri(330,290,-20)+nigiri(515,340,-20)+nigiri(390,430,-20),
+sashimi: Array.from({length:6},(_,i)=>sashimi(290+i*57,270+i*29,-15)).join(''),
+temaki: temaki(),
+hot: [0,1,2].map(i=>roll(310+i*115,300,true)+roll(330+i*115,410,true)).join(''),
+roll: [0,1,2].map(i=>roll(310+i*115,300)+roll(330+i*115,410)).join(''),
+};
+mkdirSync('public/images', { recursive: true });
+for (const [name,dish] of Object.entries(dishes)) {
+  writeFileSync(`public/images/placeholder-${name}.svg`, `<svg xmlns="http://www.w3.org/2000/svg" width="900" height="700" viewBox="0 0 900 700" role="img"><title>Ilustração provisória de sushi — ${name}</title>${defs}<rect width="900" height="700" fill="url(#bg)"/><g transform="rotate(-12 450 350)"><ellipse cx="450" cy="370" rx="342" ry="235" fill="#101111" stroke="#4d4a43" stroke-width="3"/><ellipse cx="450" cy="363" rx="315" ry="210" fill="none" stroke="#353631" stroke-width="2"/></g>${dish}<g fill="#668145"><ellipse cx="243" cy="450" rx="25" ry="10" transform="rotate(-30 243 450)"/><ellipse cx="236" cy="426" rx="28" ry="10" transform="rotate(-65 236 426)"/></g><path d="M705 110L815 590M724 106L833 585" stroke="#a47e4c" stroke-width="9" stroke-linecap="round"/></svg>`);
+}

@@ -1,0 +1,9 @@
+# Fotografias fornecidas pelo estabelecimento
+
+- `combo-2.webp`: foto enviada pelo responsável como **Combo 2 de 21 peças**, arquivo original `WhatsApp Image 2026-11-18 at 18.07.51.jpeg` (3060 × 4080 px). Versão de publicação com 1200 × 1600 px, WebP qualidade 88, 211.338 bytes. Apenas redução proporcional e compressão, sem recorte, retoque, alteração das peças ou geração de conteúdo. O original permanece no local fornecido pelo responsável.
+- `combo-5.webp`: foto enviada pelo responsável como **Combo 5 promocional de 20 peças**, arquivo original `WhatsApp Image 2026-11-18 at 17.57.20.jpeg`. Remoção do @ com sublinhado e emoji usando a ferramenta integrada ImageGen, seguida de compressão proporcional WebP qualidade 88, sem recorte adicional. Prompt e procedimento em `docs/tratamento-fotos.md`. O original permanece intacto no local fornecido pelo responsável.
+- A fotografia do Combo 2 não tem legenda sobreposta; na do Combo 5 os elementos sobrepostos foram removidos. Não são exibidos rótulos de ilustração sobre fotos reais.
+- Os preços e a composição continuam conforme o cardápio fornecido; a fotografia não é usada para deduzir novos ingredientes ou alterar quantidades.
+- `combo-8.webp`: foto fornecida como **Combo 8 de 20 peças**, original `WhatsApp Image 2026-11-18 at 18.10.43.jpeg`. Redução proporcional para até 1600 px no maior lado e WebP qualidade 88. Sem legenda sobreposta, recorte, retoque ou conteúdo gerado.
+- `combo-9.webp`: foto fornecida como **Combo 9 de 18 peças**, original `WhatsApp Image 2026-11-18 at 18.09.46.jpeg`. Redução proporcional para até 1600 px no maior lado e WebP qualidade 88. Sem legenda sobreposta, recorte, retoque ou conteúdo gerado.
+- `combo-1.webp`: foto fornecida como **Combo 1 de 10 peças**, original `WhatsApp Image 2026-11-18 at 18.18.15.jpeg`. Redução proporcional para até 1600 px no maior lado e WebP qualidade 88. Sem legenda sobreposta, recorte, retoque ou conteúdo gerado.

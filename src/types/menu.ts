@@ -1,0 +1,37 @@
+export type CategoryId = "combos" | "promocionais" | "barcas" | "hot" | "hossomaki" | "especiais" | "niguiri" | "temaki" | "uramaki" | "porcoes" | "complementos" | "bebidas";
+export type CategoryFilter = "todos" | CategoryId;
+export type MenuCategory = { id: CategoryId; label: string; description: string };
+export type Availability = "available" | "unavailable" | "unconfirmed";
+export type ProductAddon = {
+  id: string;
+  name: string;
+  price: number;
+  availability: Availability;
+  required?: boolean;
+};
+export type MenuProduct = {
+  id: string;
+  category: CategoryId;
+  name: string;
+  price: number | null;
+  unitLabel: string;
+  description: string;
+  source: "restaurant-menu" | "demo";
+  sourcePage?: number;
+  ingredients: string[];
+  pieceCount: number | null;
+  availability: Availability;
+  featured: boolean;
+  optionalAddons: ProductAddon[];
+  options?: { name: string; values: string[]; selections?: number; required?: boolean }[];
+  image: string;
+  imageKind: "illustration" | "placeholder" | "photo";
+  imageLayout?: "poster";
+  imageWidth?: number;
+  imageHeight?: number;
+  imagePrice?: number;
+  allergens?: { providedByRestaurant: true; items: string[] };
+  nutrition?: { providedByRestaurant: true; serving: string; values: { label: string; value: string }[] };
+  note?: string;
+  composition?: { quantity: number; name: string; ingredients: string }[];
+};
