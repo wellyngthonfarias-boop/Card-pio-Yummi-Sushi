@@ -25,7 +25,7 @@ export function formatWhatsAppMessage(lines: readonly SelectionLine[], delivery:
   const totalCents = subtotalCents + delivery.feeCents;
   if (!Number.isSafeInteger(totalCents) || !Number.isSafeInteger(delivery.feeCents) || delivery.feeCents < 0) throw new Error("Total inválido.");
   return [
-    "🍣 *PEDIDO — YUMMI SUSHI DELIVERY*", "*Itens selecionados:*",
+    "🍣 *PEDIDO — YUMMI SUSHI DELIVERY*", ...(delivery.address.customerName ? [`*Cliente:* ${delivery.address.customerName}`] : []), "*Itens selecionados:*",
     ...items,
     ["*Endereço de entrega:*", `Rua: ${delivery.address.street}`, `Número: ${delivery.address.number}`, ...(delivery.address.complement ? [`Complemento: ${delivery.address.complement}`] : []), `CEP: ${delivery.address.postalCode}`, `Bairro: ${delivery.neighborhood}`].join("\n"),
     [`*SUBTOTAL: ${formatCents(subtotalCents)}*`, `Taxa de entrega: ${formatCents(delivery.feeCents)}`, `*TOTAL: ${formatCents(totalCents)}*`].join("\n"),

@@ -10,6 +10,14 @@ const catalog = JSON.parse(readFileSync(new URL("../src/data/menu.json", import.
 const draft = (extra = {}) => ({ id: "wa-line", productId: "hot-salmao", quantity: 2, addonIds: [], choices: {}, notes: "", ...extra });
 const address = { street: "Rua de teste", number: "10", postalCode: "62000-000", zoneId: "centro" };
 const prepareWhatsAppOrder = (items, products) => prepareDeliveryOrder(items, products, address);
+test("nome opcional do cliente aparece na mensagem e preserva acentos", () => {
+  const result = prepareDeliveryOrder([draft()], catalog, { ...address, customerName: "  João   José  " });
+  assert.equal(result.ok, true);
+  assert.ok(result.message.includes("*Cliente:* João José"));
+  assert.equal(new URL(result.url).searchParams.get("text"), result.message);
+  assert.ok(!prepareDeliveryOrder([draft()], catalog, address).message.includes("*Cliente:*"));
+  assert.equal(prepareDeliveryOrder([draft()], catalog, { ...address, customerName: "x".repeat(81) }).ok, false);
+});
 
 test("link aponta exclusivamente para o número oficial e codifica acentos, emoji e caracteres reservados", () => {
   const notes = "Sem cebolinha & limão + gengibre? 50% 🍣\nObservação: atenção à porção!";

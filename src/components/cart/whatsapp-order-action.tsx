@@ -42,6 +42,9 @@ export function WhatsAppOrderAction() {
       <form className="delivery-form" onSubmit={openWhatsApp}>
         <fieldset>
           <legend><MapPin size={20} aria-hidden="true" />Endereço de entrega</legend>
+          <label htmlFor="customer-name">Nome do cliente (opcional)
+            <input id="customer-name" name="customerName" autoComplete="name" maxLength={80} placeholder="Como podemos chamar você?" value={address.customerName ?? ""} onChange={(event) => update("customerName", event.target.value)} />
+          </label>
           <label htmlFor="delivery-street">Rua
             <input id="delivery-street" name="street" autoComplete="address-line1" autoFocus required maxLength={120} value={address.street} onChange={(event) => update("street", event.target.value)} />
           </label>

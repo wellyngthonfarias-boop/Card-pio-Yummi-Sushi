@@ -5,6 +5,7 @@ export type DeliveryZone = {
 };
 
 export type DeliveryAddress = {
+  customerName?: string;
   street: string;
   number: string;
   complement: string;

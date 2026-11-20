@@ -18,6 +18,8 @@ export function resolveDelivery(raw: unknown, zones: readonly DeliveryZone[]): D
   if (!zones.length) return { ok: false, error: "As taxas de entrega ainda não foram cadastradas." };
   if (!raw || typeof raw !== "object" || Array.isArray(raw)) return { ok: false, error: "Preencha o endereço de entrega." };
   const value = raw as Record<string, unknown>;
+  const customerName = value.customerName === undefined || (typeof value.customerName === "string" && !value.customerName.trim()) ? "" : cleanAddressText(value.customerName, 80);
+  if (customerName === null) return { ok: false, error: "Informe um nome com até 80 caracteres." };
   const street = cleanAddressText(value.street, 120);
   if (!street) return { ok: false, error: "Informe a rua (até 120 caracteres)." };
   const number = cleanAddressText(value.number, 20);
@@ -28,6 +30,6 @@ export function resolveDelivery(raw: unknown, zones: readonly DeliveryZone[]): D
   const zone = zones.find((entry) => entry.id === value.zoneId);
   if (!zone) return { ok: false, error: "Selecione um bairro atendido na lista." };
   if (!Number.isSafeInteger(zone.feeCents) || zone.feeCents < 0) return { ok: false, error: "A taxa deste bairro precisa ser revisada pelo restaurante." };
-  const address: DeliveryAddress = { street, number, complement, postalCode: formatPostalCode(value.postalCode), zoneId: zone.id };
+  const address: DeliveryAddress = { customerName, street, number, complement, postalCode: formatPostalCode(value.postalCode), zoneId: zone.id };
   return { ok: true, delivery: { address, neighborhood: zone.name, feeCents: zone.feeCents } };
 }
