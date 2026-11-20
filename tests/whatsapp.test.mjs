@@ -8,7 +8,23 @@ import { demoProducts } from "../src/data/demo-menu.ts";
 
 const catalog = JSON.parse(readFileSync(new URL("../src/data/menu.json", import.meta.url), "utf8"));
 const draft = (extra = {}) => ({ id: "wa-line", productId: "hot-salmao", quantity: 2, addonIds: [], choices: {}, notes: "", ...extra });
-const address = { street: "Rua de teste", number: "10", postalCode: "62000-000", zoneId: "centro" };
+const address = { street: "Rua de teste", number: "10", postalCode: "62000-000", zoneId: "centro", paymentMethod: "pix" };
+test("pagamento exige escolha e valida troco sobre total com entrega", () => {
+  for (const paymentMethod of ["pix", "credit", "debit"]) {
+    const result = prepareDeliveryOrder([draft()], catalog, { ...address, paymentMethod, changeFor: "100" });
+    assert.equal(result.ok, true);
+    assert.ok(result.message.includes("*Pagamento:*"));
+    assert.ok(!result.message.includes("Troco para:"));
+  }
+  assert.equal(prepareDeliveryOrder([draft()], catalog, { ...address, paymentMethod: "" }).ok, false);
+  for (const changeFor of ["10", "-1", "abc", "100,001", ""]) assert.equal(prepareDeliveryOrder([draft()], catalog, { ...address, paymentMethod: "cash", changeMode: "change", changeFor }).ok, false);
+  const cash = prepareDeliveryOrder([draft()], catalog, { ...address, paymentMethod: "cash", changeMode: "change", changeFor: "50,00" });
+  assert.equal(cash.ok, true);
+  assert.ok(cash.message.includes(`Troco a devolver: ${formatCents(1202)}`));
+  const exact = prepareDeliveryOrder([draft()], catalog, { ...address, paymentMethod: "cash", changeMode: "exact" });
+  assert.equal(exact.ok, true);
+  assert.ok(exact.message.includes("Não precisa de troco."));
+});
 const prepareWhatsAppOrder = (items, products) => prepareDeliveryOrder(items, products, address);
 test("nome opcional do cliente aparece na mensagem e preserva acentos", () => {
   const result = prepareDeliveryOrder([draft()], catalog, { ...address, customerName: "  João   José  " });

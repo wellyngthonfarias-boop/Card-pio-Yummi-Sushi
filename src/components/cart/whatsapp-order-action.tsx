@@ -7,6 +7,7 @@ import { deliveryZones } from "@/data/delivery";
 import { formatPostalCode, resolveDelivery } from "@/lib/delivery";
 import { formatCents, selectionTotals } from "@/lib/selection";
 import { prepareWhatsAppOrder } from "@/lib/whatsapp";
+import { paymentMethods, resolvePayment } from "@/lib/payment";
 import { useSelection } from "./selection-context";
 
 export function WhatsAppOrderAction() {
@@ -18,6 +19,7 @@ export function WhatsAppOrderAction() {
   const zone = deliveryZones.find((entry) => entry.id === address.zoneId);
   const blocked = !selection.ready || selection.demo || selection.lines.length === 0;
   const resolved = resolveDelivery(address, deliveryZones);
+  const payment = resolvePayment(address, subtotalCents + (zone?.feeCents ?? 0));
 
   function openWhatsApp(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
@@ -72,9 +74,14 @@ export function WhatsAppOrderAction() {
           <div><dt>Taxa de entrega</dt><dd>{zone ? formatCents(zone.feeCents) : "Selecione o bairro"}</dd></div>
           <div className="delivery-grand-total"><dt>Total com entrega</dt><dd>{zone ? formatCents(subtotalCents + zone.feeCents) : "—"}</dd></div>
         </dl>
+        <fieldset><legend>Forma de pagamento</legend>
+          <label htmlFor="payment-method">Como deseja pagar?<select id="payment-method" required value={address.paymentMethod ?? ""} onChange={(event) => { selection.setDeliveryAddress({ ...address, paymentMethod: event.target.value, changeMode: "", changeFor: "" }); setError(""); }}><option value="">Selecione</option>{Object.entries(paymentMethods).map(([key, label]) => <option key={key} value={key}>{label}</option>)}</select></label>
+          {address.paymentMethod === "cash" && <><label htmlFor="change-mode">Precisa de troco?<select id="change-mode" required value={address.changeMode ?? ""} onChange={(event) => update("changeMode", event.target.value)}><option value="">Selecione</option><option value="exact">Não, tenho o valor exato</option><option value="change">Sim</option></select></label>{address.changeMode === "change" && <label htmlFor="change-for">Troco para quanto? (R$)<input id="change-for" inputMode="decimal" required maxLength={10} placeholder="Ex.: 100,00" value={address.changeFor ?? ""} onChange={(event) => update("changeFor", event.target.value)} /></label>}</>}
+          {address.paymentMethod === "cash" && address.changeMode === "change" && address.changeFor && !payment.ok && <p role="alert" className="form-error">{payment.error}</p>}
+        </fieldset>
         {error && <p role="alert" className="form-error">{error}</p>}
         {!deliveryZones.length && <p role="status" className="form-error">As taxas de entrega ainda não foram cadastradas.</p>}
-        <button type="submit" className="primary-button whatsapp-button full-width" disabled={blocked || !resolved.ok}><MessageCircle size={21} aria-hidden="true" />Fazer pedido pelo WhatsApp</button>
+        <button type="submit" className="primary-button whatsapp-button full-width" disabled={blocked || !resolved.ok || !payment.ok}><MessageCircle size={21} aria-hidden="true" />Fazer pedido pelo WhatsApp</button>
         <button type="button" className="text-action" onClick={() => { setExpanded(false); setError(""); }}>Voltar à seleção</button>
       </form>}
     {selection.demo && selection.lines.length > 0 && <p className="form-error">Produtos fictícios não podem ser enviados ao WhatsApp do restaurante.</p>}

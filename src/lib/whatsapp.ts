@@ -3,6 +3,7 @@ import type { SelectionLine } from "@/types/selection";
 import type { DeliveryZone, ResolvedDelivery } from "@/types/delivery";
 import { deliveryZones } from "../data/delivery.ts";
 import { resolveDelivery } from "./delivery.ts";
+import { resolvePayment } from "./payment.ts";
 import { formatCents, MAX_LINES, priceSelection, resolveSelectionLine, selectionTotals, toCents } from "./selection.ts";
 import { COMPLEMENT_EXTRA_CENTS, isCourtesyComplement } from "./complement-policy.ts";
 
@@ -23,12 +24,15 @@ export function formatWhatsAppMessage(lines: readonly SelectionLine[], delivery:
   ].join("\n"));
   const subtotalCents = selectionTotals(lines).subtotalCents;
   const totalCents = subtotalCents + delivery.feeCents;
+  const payment = resolvePayment(delivery.address, totalCents);
+  if (!payment.ok) throw new Error(payment.error);
   if (!Number.isSafeInteger(totalCents) || !Number.isSafeInteger(delivery.feeCents) || delivery.feeCents < 0) throw new Error("Total inválido.");
   return [
     "🍣 *PEDIDO — YUMMI SUSHI DELIVERY*", ...(delivery.address.customerName ? [`*Cliente:* ${delivery.address.customerName}`] : []), "*Itens selecionados:*",
     ...items,
     ["*Endereço de entrega:*", `Rua: ${delivery.address.street}`, `Número: ${delivery.address.number}`, ...(delivery.address.complement ? [`Complemento: ${delivery.address.complement}`] : []), `CEP: ${delivery.address.postalCode}`, `Bairro: ${delivery.neighborhood}`].join("\n"),
     [`*SUBTOTAL: ${formatCents(subtotalCents)}*`, `Taxa de entrega: ${formatCents(delivery.feeCents)}`, `*TOTAL: ${formatCents(totalCents)}*`].join("\n"),
+    payment.message,
     "Olá! Gostaria de confirmar meu pedido.",
   ].join("\n\n");
 }
@@ -48,6 +52,9 @@ export function prepareWhatsAppOrder(items: readonly unknown[], catalog: readonl
   }
   const resolved = resolveDelivery(address, zones);
   if (!resolved.ok) return resolved;
+  const payment = resolvePayment(address, selectionTotals(lines).subtotalCents + resolved.delivery.feeCents);
+  if (!payment.ok) return payment;
+  Object.assign(resolved.delivery.address, { paymentMethod: (address as Record<string, string>).paymentMethod, changeMode: (address as Record<string, string>).changeMode, changeFor: (address as Record<string, string>).changeFor });
   try {
     const message = formatWhatsAppMessage(lines, resolved.delivery);
     return { ok: true, message, url: `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(message)}` };

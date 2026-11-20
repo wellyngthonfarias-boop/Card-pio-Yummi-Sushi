@@ -6,6 +6,9 @@ export type DeliveryZone = {
 
 export type DeliveryAddress = {
   customerName?: string;
+  paymentMethod?: string;
+  changeMode?: string;
+  changeFor?: string;
   street: string;
   number: string;
   complement: string;
