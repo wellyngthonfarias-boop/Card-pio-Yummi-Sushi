@@ -1,12 +1,15 @@
 import test from "node:test";
 import assert from "node:assert/strict";
 import { readFileSync } from "node:fs";
-import { prepareWhatsAppOrder, formatWhatsAppMessage, WHATSAPP_NUMBER } from "../src/lib/whatsapp.ts";
+import { prepareWhatsAppOrder as prepareDeliveryOrder, formatWhatsAppMessage, WHATSAPP_NUMBER } from "../src/lib/whatsapp.ts";
+import { deliveryZones } from "../src/data/delivery.ts";
 import { formatCents } from "../src/lib/selection.ts";
 import { demoProducts } from "../src/data/demo-menu.ts";
 
 const catalog = JSON.parse(readFileSync(new URL("../src/data/menu.json", import.meta.url), "utf8"));
 const draft = (extra = {}) => ({ id: "wa-line", productId: "hot-salmao", quantity: 2, addonIds: [], choices: {}, notes: "", ...extra });
+const address = { street: "Rua de teste", number: "10", postalCode: "62000-000", zoneId: "centro" };
+const prepareWhatsAppOrder = (items, products) => prepareDeliveryOrder(items, products, address);
 
 test("link aponta exclusivamente para o número oficial e codifica acentos, emoji e caracteres reservados", () => {
   const notes = "Sem cebolinha & limão + gengibre? 50% 🍣\nObservação: atenção à porção!";
@@ -36,7 +39,9 @@ test("formata quantidades, adicionais, sabores e subtotal sem taxas inventadas",
   assert.ok(result.message.includes("Sabor do temaki: 1º: Salmão · 2º: Camarão"));
   assert.ok(result.message.includes(`*SUBTOTAL: ${formatCents(10444)}*`));
   assert.ok(result.message.includes("Olá! Gostaria de confirmar meu pedido."));
-  assert.ok(result.message.endsWith("Observação:\nO subtotal não inclui eventuais taxas de entrega."));
+  assert.ok(result.message.includes("Bairro: Centro"));
+  assert.ok(result.message.includes(`Taxa de entrega: ${formatCents(600)}`));
+  assert.ok(result.message.includes(`*TOTAL: ${formatCents(11044)}*`));
 });
 
 test("bloqueia pedido vazio, produtos indisponíveis, removidos e configurações incompletas", () => {
@@ -76,4 +81,42 @@ test("preserva apresentação das bebidas e complementos gratuitos", () => {
   assert.ok(result.message.includes(`*SUBTOTAL: ${formatCents(800)}*`));
   assert.ok(!result.message.includes("Adicionais:"));
   assert.ok(!result.message.includes("Observações:"));
+});
+
+test("entrega exige endereço completo e um bairro cadastrado", () => {
+  for (const invalid of [undefined, {}, { ...address, street: " " }, { ...address, number: "" }, { ...address, postalCode: "123" }, { ...address, zoneId: "fora-da-area" }]) {
+    assert.equal(prepareDeliveryOrder([draft()], catalog, invalid).ok, false);
+  }
+  assert.equal(prepareDeliveryOrder([draft()], catalog, address, []).ok, false);
+});
+
+test("calcula cada taxa oficial e ignora frete e total adulterados no endereço", () => {
+  for (const zone of deliveryZones) {
+    const result = prepareDeliveryOrder([draft()], catalog, { ...address, zoneId: zone.id, feeCents: 1, totalCents: 1 });
+    assert.equal(result.ok, true, zone.name);
+    assert.ok(result.message.includes(`Bairro: ${zone.name}`));
+    assert.ok(result.message.includes(`*SUBTOTAL: ${formatCents(3198)}*`));
+    assert.ok(result.message.includes(`Taxa de entrega: ${formatCents(zone.feeCents)}`));
+    assert.ok(result.message.includes(`*TOTAL: ${formatCents(3198 + zone.feeCents)}*`));
+  }
+});
+
+test("reconcilia frete com a tabela atual, incluindo frete grátis explícito", () => {
+  for (const feeCents of [0, 999]) {
+    const result = prepareDeliveryOrder([draft()], catalog, address, [{ id: "centro", name: "Centro", feeCents }]);
+    assert.equal(result.ok, true);
+    assert.ok(result.message.includes(`Taxa de entrega: ${formatCents(feeCents)}`));
+    assert.ok(result.message.includes(`*TOTAL: ${formatCents(3198 + feeCents)}*`));
+  }
+  for (const feeCents of [-1, 6.5, NaN, Infinity]) {
+    assert.equal(prepareDeliveryOrder([draft()], catalog, address, [{ id: "centro", name: "Centro", feeCents }]).ok, false);
+  }
+});
+
+test("codifica endereço com acentos e caracteres reservados, aceita S/N e normaliza CEP", () => {
+  const result = prepareDeliveryOrder([draft()], catalog, { ...address, street: "Rua São João & José + Anexo", number: "S/N", postalCode: "62000000", zoneId: "sinha-saboia" });
+  assert.equal(result.ok, true);
+  assert.equal(new URL(result.url).searchParams.get("text"), result.message);
+  assert.ok(result.message.includes("Rua: Rua São João & José + Anexo\nNúmero: S/N\nCEP: 62000-000\nBairro: Sinhá Sabóia"));
+  assert.ok(!result.message.includes("não inclui eventuais taxas"));
 });

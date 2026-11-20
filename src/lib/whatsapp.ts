@@ -1,11 +1,14 @@
 import type { MenuProduct } from "@/types/menu";
 import type { SelectionLine } from "@/types/selection";
+import type { DeliveryZone, ResolvedDelivery } from "@/types/delivery";
+import { deliveryZones } from "../data/delivery.ts";
+import { resolveDelivery } from "./delivery.ts";
 import { formatCents, MAX_LINES, resolveSelectionLine, selectionTotals, toCents } from "./selection.ts";
 
 export const WHATSAPP_NUMBER = "5588992978164";
 export const WHATSAPP_DISPLAY_NUMBER = "+55 88 99297-8164";
 
-export function formatWhatsAppMessage(lines: readonly SelectionLine[]): string {
+export function formatWhatsAppMessage(lines: readonly SelectionLine[], delivery: ResolvedDelivery): string {
   if (lines.length === 0) throw new Error("Adicione pelo menos um produto ao pedido.");
   const items = lines.map((line) => [
     `${line.quantity}x ${line.product.name}`,
@@ -15,17 +18,21 @@ export function formatWhatsAppMessage(lines: readonly SelectionLine[]): string {
     ...(line.notes ? [`Observações: ${line.notes.replace(/\r?\n/g, "\n  ")}`] : []),
     `Subtotal do item: ${formatCents(line.subtotalCents)}`,
   ].join("\n"));
+  const subtotalCents = selectionTotals(lines).subtotalCents;
+  const totalCents = subtotalCents + delivery.feeCents;
+  if (!Number.isSafeInteger(totalCents) || !Number.isSafeInteger(delivery.feeCents) || delivery.feeCents < 0) throw new Error("Total inválido.");
   return [
     "🍣 *PEDIDO — YUMMI SUSHI DELIVERY*", "*Itens selecionados:*",
-    ...items, `*SUBTOTAL: ${formatCents(selectionTotals(lines).subtotalCents)}*`,
+    ...items,
+    ["*Endereço de entrega:*", `Rua: ${delivery.address.street}`, `Número: ${delivery.address.number}`, `CEP: ${delivery.address.postalCode}`, `Bairro: ${delivery.neighborhood}`].join("\n"),
+    [`*SUBTOTAL: ${formatCents(subtotalCents)}*`, `Taxa de entrega: ${formatCents(delivery.feeCents)}`, `*TOTAL: ${formatCents(totalCents)}*`].join("\n"),
     "Olá! Gostaria de confirmar meu pedido.",
-    "Observação:\nO subtotal não inclui eventuais taxas de entrega.",
   ].join("\n\n");
 }
 
 type WhatsAppOrder = { ok: true; message: string; url: string } | { ok: false; error: string };
 
-export function prepareWhatsAppOrder(items: readonly unknown[], catalog: readonly MenuProduct[]): WhatsAppOrder {
+export function prepareWhatsAppOrder(items: readonly unknown[], catalog: readonly MenuProduct[], address: unknown, zones: readonly DeliveryZone[] = deliveryZones): WhatsAppOrder {
   if (!Array.isArray(items) || items.length === 0) return { ok: false, error: "Adicione pelo menos um produto ao pedido." };
   if (items.length > MAX_LINES) return { ok: false, error: "O pedido ultrapassa o limite de itens. Revise sua seleção." };
   const lines: SelectionLine[] = [];
@@ -36,8 +43,10 @@ export function prepareWhatsAppOrder(items: readonly unknown[], catalog: readonl
     if (lines.some((line) => line.id === result.line.id)) return { ok: false, error: "Há itens duplicados com o mesmo identificador. Revise sua seleção." };
     lines.push(result.line);
   }
+  const resolved = resolveDelivery(address, zones);
+  if (!resolved.ok) return resolved;
   try {
-    const message = formatWhatsAppMessage(lines);
+    const message = formatWhatsAppMessage(lines, resolved.delivery);
     return { ok: true, message, url: `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(message)}` };
   } catch { return { ok: false, error: "Não foi possível preparar a mensagem. Revise as observações do pedido." }; }
 }

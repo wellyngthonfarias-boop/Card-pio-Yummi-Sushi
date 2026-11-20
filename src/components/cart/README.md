@@ -11,4 +11,6 @@ Regras e cálculos estão em `src/lib/selection.ts`. Preços são lidos exclusiv
 
 Disponibilidade `unconfirmed` permite montar a lista, com aviso de confirmação pelo restaurante; `unavailable` bloqueia. Não há confirmação de estoque, envio automático de pedido, pagamento ou backend. A demonstração é isolada e identificada como fictícia.
 
-`whatsapp-order-action.tsx` abre a conversa oficial com mensagem preenchida, somente no clique e após revalidação pelo catálogo. Seleção vazia ou fictícia fica bloqueada. A prévia e a cópia manual são alternativas quando a abertura não funcionar. A seleção nunca é limpa ao abrir o WhatsApp; “Mostrar ao garçom” permanece um modo de leitura independente.
+`whatsapp-order-action.tsx` apresenta o endereço de entrega antes de abrir a conversa oficial. Rua, número (ou S/N), CEP e bairro são obrigatórios. Os bairros e taxas oficiais ficam em `src/data/delivery.ts`, em centavos; `src/lib/delivery.ts` valida o endereço e resolve o frete pela tabela atual. Bairro ausente ou desconhecido bloqueia a finalização. O CEP tem validação de formato, sem consulta externa ou verificação de correspondência com a rua.
+
+`src/lib/whatsapp.ts` revalida produtos, adicionais e frete no clique e monta a mensagem com endereço, subtotal, taxa e total separados. Seleção vazia, fictícia ou inválida fica bloqueada. Nenhum pedido é enviado automaticamente e a seleção nunca é limpa ao abrir o WhatsApp. O endereço fica somente na memória da página, sem persistência no localStorage; “Mostrar ao garçom” permanece independente e não exige endereço.
