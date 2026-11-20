@@ -302,8 +302,7 @@ body:has(.floating-selection) { padding-bottom: calc(100px + env(safe-area-inset
 :root[data-theme="light"] .hero-figure { border-color: var(--border); }
 :root[data-theme="light"] .product-note { color: var(--notice-text); }
 
-.hero-animation { position: relative; width: min(72vw, 260px); max-width: 100%; padding: 0; background: #111; overflow: hidden; }
-.hero-animation video { display: block; width: 100%; height: auto; aspect-ratio: 9 / 16; object-fit: contain; }
-.brand-playback { position: absolute; bottom: 6px; right: 6px; display: grid; place-items: center; width: 44px; height: 44px; border-radius: 50%; color: #fff; background: #111c; border: 1px solid #ffffff60; cursor: pointer; }
-@media (min-width: 640px) { .hero-animation { width: 280px; } }
-@media (min-width: 1024px) { .hero-animation { width: 300px; } }
+.hero-animation { position: relative; width: 160px; max-width: 100%; aspect-ratio: 1; padding: 0; border: 0; border-radius: 50%; background: transparent; overflow: visible; }
+.hero-animation video { display: block; width: 100%; height: 100%; aspect-ratio: 1; border: 1px solid var(--border); border-radius: 50%; object-fit: cover; object-position: center; }
+.brand-playback { position: absolute; bottom: 0; right: -6px; display: grid; place-items: center; width: 44px; height: 44px; border-radius: 50%; color: #fff; background: #111e; border: 1px solid #ffffff60; cursor: pointer; }
+@media (min-width: 1024px) { .hero-animation { width: 180px; } }
