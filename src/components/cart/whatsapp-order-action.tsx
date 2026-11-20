@@ -2,8 +2,7 @@
 
 import { useState, type FormEvent } from "react";
 import { MapPin, MessageCircle } from "lucide-react";
-import { menuProducts } from "@/data/menu";
-import { deliveryZones } from "@/data/delivery";
+import { useCatalog } from "@/components/catalog-provider";
 import { formatPostalCode, resolveDelivery } from "@/lib/delivery";
 import { formatCents, selectionTotals } from "@/lib/selection";
 import { prepareWhatsAppOrder } from "@/lib/whatsapp";
@@ -12,6 +11,7 @@ import { useSelection } from "./selection-context";
 
 export function WhatsAppOrderAction() {
   const selection = useSelection();
+  const { products: menuProducts, zones: deliveryZones } = useCatalog();
   const [expanded, setExpanded] = useState(false);
   const [error, setError] = useState("");
   const address = selection.deliveryAddress;
@@ -24,7 +24,7 @@ export function WhatsAppOrderAction() {
   function openWhatsApp(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
     setError("");
-    const current = prepareWhatsAppOrder(selection.lines, menuProducts, address);
+    const current = prepareWhatsAppOrder(selection.lines, menuProducts, address, deliveryZones);
     if (selection.demo || !current.ok) {
       setError(selection.demo ? "A demonstração não envia pedidos reais." : current.ok ? "" : current.error);
       return;

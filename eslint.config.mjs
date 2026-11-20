@@ -9,5 +9,5 @@ export default defineConfig([
   ...ts.configs.recommended,
   { files: ["src/**/*.{ts,tsx}"], plugins: { "@next/next": next, "react-hooks": hooks }, rules: { ...next.configs.recommended.rules, ...next.configs["core-web-vitals"].rules, ...hooks.configs.recommended.rules } },
   { languageOptions: { globals: { console: "readonly", process: "readonly", Buffer: "readonly", setTimeout: "readonly", clearTimeout: "readonly", URL: "readonly" } } },
-  globalIgnores([".next/**", "out/**", "outputs/**", "node_modules/**", "next-env.d.ts"]),
+  globalIgnores([".next/**", ".wrangler/**", "out/**", "outputs/**", "node_modules/**", "next-env.d.ts"]),
 ]);

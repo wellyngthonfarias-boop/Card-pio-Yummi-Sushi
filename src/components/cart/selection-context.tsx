@@ -19,7 +19,7 @@ type SelectionContextValue = {
 };
 const SelectionContext = createContext<SelectionContextValue | null>(null);
 
-export function SelectionProvider({ catalog, demo, children }: { catalog: readonly MenuProduct[]; demo: boolean; children: ReactNode }) {
+export function SelectionProvider({ catalog, demo, children, enabled = true }: { catalog: readonly MenuProduct[]; demo: boolean; children: ReactNode; enabled?: boolean }) {
   const [store] = useState(() => createSelectionStore(catalog, demo));
   const snapshot = useSyncExternalStore(store.subscribe, store.getSnapshot, store.getServerSnapshot);
   const [opened, setOpened] = useState(false);
@@ -32,6 +32,7 @@ export function SelectionProvider({ catalog, demo, children }: { catalog: readon
   }, [snapshot.message, store]);
   const value: SelectionContextValue = {
     ...snapshot, demo, opened,
+    ready: snapshot.ready && enabled,
     deliveryAddress, setDeliveryAddress,
     open: () => setOpened(true), close: () => setOpened(false),
     add: store.add, addBatch: store.addBatch, setQuantity: store.setQuantity, remove: store.remove, clear: store.clear,

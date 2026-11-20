@@ -6,14 +6,17 @@ import { Search, X } from "lucide-react";
 import { SectionLabel } from "@/components/ui/section-label";
 import { CategoryNav } from "./category-nav";
 import { ProductCarousel } from "./product-carousel";
-import { categories, menuProducts, comboChangeFee } from "@/data/menu";
+import { categories, comboChangeFee } from "@/data/menu";
+import { useCatalog } from "@/components/catalog-provider";
 import { formatPrice } from "@/lib/format";
 import { filterMenuProducts, groupMenuProducts } from "@/lib/menu-search";
 import type { CategoryFilter, MenuCategory, MenuProduct } from "@/types/menu";
 
 const ProductDetails = dynamic(() => import("./product-details").then((module) => module.ProductDetails), { ssr: false, loading: () => <p role="status" className="selection-feedback">Abrindo detalhes…</p> });
 
-export function MenuShowcase({ catalog = menuProducts, menuCategories = categories, demo = false }: { catalog?: readonly MenuProduct[]; menuCategories?: readonly MenuCategory[]; demo?: boolean }) {
+export function MenuShowcase({ catalog: suppliedCatalog, menuCategories = categories, demo = false }: { catalog?: readonly MenuProduct[]; menuCategories?: readonly MenuCategory[]; demo?: boolean }) {
+  const current = useCatalog();
+  const catalog = suppliedCatalog ?? current.products;
   const [active, setActive] = useState<CategoryFilter>("todos");
   const [search, setSearch] = useState("");
   const [selectedProduct, setSelectedProduct] = useState<MenuProduct | null>(null);

@@ -1,4 +1,9 @@
-# Cloudflare Pages: exportação estática do Next.js, sem Functions.
+# Interface estática com Pages Functions para o painel e o catálogo atualizado.
 name = "yummi-sushi-delivery"
 pages_build_output_dir = "./out"
 compatibility_date = "2026-11-19"
+[[d1_databases]]
+binding = "DB"
+database_name = "yummi-owner-menu"
+database_id = "577c24fe-5afb-4eff-b590-f05f2212260d"
+migrations_dir = "migrations"

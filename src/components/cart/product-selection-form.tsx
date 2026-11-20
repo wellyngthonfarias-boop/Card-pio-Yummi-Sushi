@@ -1,7 +1,8 @@
 "use client";
 
 import { useState, type FormEvent, type ReactNode } from "react";
-import { comboChangeFee, menuProducts } from "@/data/menu";
+import { comboChangeFee } from "@/data/menu";
+import { useCatalog } from "@/components/catalog-provider";
 import type { MenuProduct } from "@/types/menu";
 import { getSelectionBlockReason } from "@/lib/product-selection";
 import { complementQuote, formatCents, MAX_NOTES, toCents } from "@/lib/selection";
@@ -11,6 +12,7 @@ import { useSelection } from "./selection-context";
 
 export function ProductSelectionForm({ product, onAdded, children }: { product: MenuProduct; onAdded: () => void; children?: ReactNode }) {
   const selection = useSelection();
+  const { products: menuProducts } = useCatalog();
   const [quantity, setQuantity] = useState(1);
   const [addonIds, setAddonIds] = useState<string[]>([]);
   const [choices, setChoices] = useState<Record<string, string[]>>({});
