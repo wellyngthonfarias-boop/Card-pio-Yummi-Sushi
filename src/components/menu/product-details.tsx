@@ -5,10 +5,13 @@ import { ProductVisual } from "./product-visual";
 import { X } from "lucide-react";
 import type { MenuProduct } from "@/types/menu";
 import { categories } from "@/data/menu";
-import { formatMenuPrice } from "@/lib/format";
+import { formatProductPrice } from "@/lib/format";
+import { isCourtesyComplement } from "@/lib/complement-policy";
+import { useSelection } from "@/components/cart/selection-context";
 import { ProductSelectionForm } from "@/components/cart/product-selection-form";
 
 export function ProductDetails({ product, onClose }: { product: MenuProduct; onClose: () => void }) {
+  const selection = useSelection();
   const dialog = useRef<HTMLDialogElement>(null);
   const closeButton = useRef<HTMLButtonElement>(null);
 
@@ -43,7 +46,7 @@ export function ProductDetails({ product, onClose }: { product: MenuProduct; onC
         {product.composition && <section className="detail-section"><h3>Composição{product.pieceCount ? ` · ${product.pieceCount} peças` : ""}</h3><ul className="detail-composition">{product.composition.map((part, index) => <li key={`${part.name}-${index}`}><strong>{part.quantity} {part.name}</strong>{part.ingredients && <span>{part.ingredients}</span>}</li>)}</ul></section>}
         {product.allergens?.providedByRestaurant && product.allergens.items.length > 0 && <section className="detail-section"><h3>Alergênicos</h3><p>{product.allergens.items.join(", ")}</p></section>}
         {product.nutrition?.providedByRestaurant && product.nutrition.values.length > 0 && <section className="detail-section"><h3>Informações nutricionais</h3><p>{product.nutrition.serving}</p><dl>{product.nutrition.values.map((entry) => <div key={entry.label} className="addon-row"><dt>{entry.label}</dt><dd>{entry.value}</dd></div>)}</dl></section>}
-        <div className="detail-section detail-price"><div><p className="price-label">{product.source === "demo" ? "Preço fictício" : product.price === null ? "Preço não informado" : "Preço unitário"}</p><p className="price">{formatMenuPrice(product.price)}</p></div></div>
+        <div className="detail-section detail-price"><div><p className="price-label">{isCourtesyComplement(product) ? "Próxima unidade" : product.source === "demo" ? "Preço fictício" : product.price === null ? "Preço não informado" : "Preço unitário"}</p><p className="price">{formatProductPrice(product, selection.lines)}</p></div></div>
       </div>
       </ProductSelectionForm>
     </dialog>

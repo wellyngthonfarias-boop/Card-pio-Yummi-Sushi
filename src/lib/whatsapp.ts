@@ -3,19 +3,22 @@ import type { SelectionLine } from "@/types/selection";
 import type { DeliveryZone, ResolvedDelivery } from "@/types/delivery";
 import { deliveryZones } from "../data/delivery.ts";
 import { resolveDelivery } from "./delivery.ts";
-import { formatCents, MAX_LINES, resolveSelectionLine, selectionTotals, toCents } from "./selection.ts";
+import { formatCents, MAX_LINES, priceSelection, resolveSelectionLine, selectionTotals, toCents } from "./selection.ts";
+import { COMPLEMENT_EXTRA_CENTS, isCourtesyComplement } from "./complement-policy.ts";
 
 export const WHATSAPP_NUMBER = "5588992978164";
 export const WHATSAPP_DISPLAY_NUMBER = "+55 88 99297-8164";
 
 export function formatWhatsAppMessage(lines: readonly SelectionLine[], delivery: ResolvedDelivery): string {
   if (lines.length === 0) throw new Error("Adicione pelo menos um produto ao pedido.");
-  const items = lines.map((line) => [
+  const items = priceSelection(lines).map((line) => [
     `${line.quantity}x ${line.product.name}`,
     ...(line.product.unitLabel ? [`Apresentação: ${line.product.unitLabel}`] : []),
     ...Object.entries(line.choices).filter(([, values]) => values.length > 0).map(([name, values]) => `${name}: ${values.map((value, index) => values.length > 1 ? `${index + 1}º: ${value}` : value).join(" · ")}`),
     ...(line.addons.length ? [`Adicionais: ${line.addons.map((addon) => `${addon.name} (+ ${formatCents(toCents(addon.price))} por unidade)`).join(", ")}`] : []),
     ...(line.notes ? [`Observações: ${line.notes.replace(/\r?\n/g, "\n  ")}`] : []),
+    ...(line.courtesyQuantity ? [`Cortesia: ${line.courtesyQuantity} unidade de complemento`] : []),
+    ...(isCourtesyComplement(line.product) && line.quantity > line.courtesyQuantity ? [`Complementos extras: ${line.quantity - line.courtesyQuantity} × ${formatCents(COMPLEMENT_EXTRA_CENTS)}`] : []),
     `Subtotal do item: ${formatCents(line.subtotalCents)}`,
   ].join("\n"));
   const subtotalCents = selectionTotals(lines).subtotalCents;

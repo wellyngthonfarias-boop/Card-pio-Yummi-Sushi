@@ -4,7 +4,8 @@ import { readFileSync } from "node:fs";
 import { filterMenuProducts, groupMenuProducts } from "../src/lib/menu-search.ts";
 import { canSelectProduct, getSelectionBlockReason } from "../src/lib/product-selection.ts";
 import { demoCategories, demoProducts } from "../src/data/demo-menu.ts";
-import { formatMenuPrice } from "../src/lib/format.ts";
+import { formatMenuPrice, formatProductPrice } from "../src/lib/format.ts";
+import { resolveSelectionLine } from "../src/lib/selection.ts";
 
 const products = JSON.parse(readFileSync(new URL("../src/data/menu.json", import.meta.url), "utf8"));
 const categories = [...new Set(products.map((p) => p.category))].map((id) => ({ id, label: id, description: "" }));
@@ -68,12 +69,16 @@ test("exemplos fictícios são identificados e nunca elegíveis para seleção c
   assert.ok(demoProducts.every((p) => !products.some((real) => real.id === p.id)));
 });
 
-test("correções do restaurante preservam sabores, preços e complementos gratuitos", () => {
+test("correções do restaurante preservam sabores, preços e a cortesia limitada dos complementos", () => {
   assert.ok(!products.some((p) => ["sashimi", "shoyu", "tare"].includes(p.id)));
   assert.ok(!categories.some((c) => c.id === "sashimi"));
   const complements = products.filter((p) => p.category === "complementos");
   assert.deepEqual(complements.map((p) => p.id), ["sunomono", "gengibre", "wasabi"]);
   assert.ok(complements.every((p) => p.price === 0 && !p.note));
+  assert.ok(complements.every((p) => p.description.includes("1 complemento de cortesia por pedido")));
+  assert.equal(formatProductPrice(complements[0], []), "Cortesia disponível");
+  const selected = resolveSelectionLine({ id: "free", productId: "wasabi", quantity: 1, addonIds: [], choices: {}, notes: "" }, products).line;
+  assert.match(formatProductPrice(complements[0], [selected]), /2,00/);
   assert.equal(formatMenuPrice(0), "Sem cobrança");
   assert.equal(formatMenuPrice(null), "Consultar valor");
   const combo9 = products.find((p) => p.id === "combo-9");

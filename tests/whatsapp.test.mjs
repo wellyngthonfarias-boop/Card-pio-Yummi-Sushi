@@ -132,3 +132,16 @@ test("complemento é opcional, preserva acentos e não altera taxa ou total", ()
   }
   for (const complement of ["x".repeat(121), 123, null]) assert.equal(prepareDeliveryOrder([draft()], catalog, { ...address, complement }).ok, false);
 });
+
+test("WhatsApp inclui uma cortesia e cobra todos os complementos extras no subtotal e total", () => {
+  const result = prepareDeliveryOrder([draft({ productId: "combo-1", quantity: 1 }), draft({ id: "sun", productId: "sunomono", quantity: 2 }), draft({ id: "ginger", productId: "gengibre", quantity: 1 })], catalog, address);
+  assert.equal(result.ok, true);
+  assert.equal(result.message.match(/Cortesia: 1 unidade de complemento/g).length, 1);
+  assert.equal(result.message.match(/Complementos extras: 1 ×/g).length, 2);
+  assert.ok(result.message.includes(`*SUBTOTAL: ${formatCents(2900)}*`));
+  assert.ok(result.message.includes(`Taxa de entrega: ${formatCents(600)}`));
+  assert.ok(result.message.includes(`*TOTAL: ${formatCents(3500)}*`));
+  const onlyComplements = prepareDeliveryOrder([draft({ productId: "wasabi", quantity: 3, subtotalCents: 0 })], catalog, address);
+  assert.ok(onlyComplements.message.includes(`*SUBTOTAL: ${formatCents(400)}*`));
+  assert.ok(onlyComplements.message.includes(`*TOTAL: ${formatCents(1000)}*`));
+});

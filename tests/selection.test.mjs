@@ -2,7 +2,7 @@ import test from "node:test";
 import assert from "node:assert/strict";
 import { readFileSync } from "node:fs";
 import { demoProducts } from "../src/data/demo-menu.ts";
-import { resolveSelectionLine, serializeSelection, restoreSelection, changeLineQuantity, selectionTotals, toCents, formatCents } from "../src/lib/selection.ts";
+import { resolveSelectionLine, serializeSelection, restoreSelection, changeLineQuantity, priceSelection, complementQuote, selectionTotals, toCents, formatCents } from "../src/lib/selection.ts";
 
 const catalog = JSON.parse(readFileSync(new URL("../src/data/menu.json", import.meta.url), "utf8"));
 const draft = (overrides = {}) => ({ id: "test-line", productId: "combo-1", quantity: 1, addonIds: [], choices: {}, notes: "", ...overrides });
@@ -106,4 +106,37 @@ test("demonstração usa catálogo e recuperação isolados da seleção comerci
   assert.equal(restoreSelection(stored, catalog).lines.length, 0);
   assert.equal(restoreSelection(stored, demoProducts, true).lines.length, 1);
   assert.equal(resolveSelectionLine(draft({ productId: "demo-unavailable" }), demoProducts, true).ok, false);
+});
+
+test("uma cortesia por pedido soma todos os tipos e unidades de complementos", () => {
+  const first = resolved(draft({ productId: "sunomono", quantity: 2 }));
+  const second = resolved(draft({ id: "ginger", productId: "gengibre", quantity: 3 }));
+  const third = resolved(draft({ id: "wasabi", productId: "wasabi" }));
+  assert.equal(selectionTotals([first]).subtotalCents, 200);
+  assert.equal(selectionTotals([first, second, third]).subtotalCents, 1000);
+  const priced = priceSelection([first, second, third]);
+  assert.deepEqual(priced.map((line) => line.subtotalCents), [200, 600, 200]);
+  assert.equal(priced.reduce((sum, line) => sum + line.courtesyQuantity, 0), 1);
+  assert.equal(selectionTotals(priced).subtotalCents, 1000, "Recalcular não duplica cobranças");
+  assert.equal(first.subtotalCents, 0, "O estado original não é alterado");
+});
+
+test("alterar quantidade e remover complementos redistribui a única cortesia", () => {
+  let lines = [resolved(draft({ productId: "sunomono", quantity: 2 })), resolved(draft({ id: "ginger", productId: "gengibre" }))];
+  assert.equal(selectionTotals(lines).subtotalCents, 400);
+  lines = changeLineQuantity(lines, "test-line", 1, catalog);
+  assert.equal(selectionTotals(lines).subtotalCents, 200);
+  lines = changeLineQuantity(lines, "test-line", 0, catalog);
+  assert.equal(selectionTotals(lines).subtotalCents, 0);
+  assert.equal(priceSelection(lines)[0].courtesyQuantity, 1);
+  assert.equal(selectionTotals(changeLineQuantity(lines, "ginger", 99, catalog)).subtotalCents, 19600);
+  assert.equal(selectionTotals(changeLineQuantity(lines, "ginger", 0, catalog)).subtotalCents, 0);
+});
+
+test("dividir complementos em linhas e observações diferentes não concede mais cortesias", () => {
+  const lines = [resolved(draft({ productId: "wasabi", notes: "Separado" })), resolved(draft({ id: "other", productId: "wasabi", notes: "Em outro pote" }))];
+  assert.equal(selectionTotals(lines).subtotalCents, 200);
+  assert.equal(selectionTotals(restoreSelection(serializeSelection(lines), catalog).lines).subtotalCents, 200);
+  assert.equal(complementQuote([], 3).extraCents, 400);
+  assert.equal(complementQuote(lines, 2).extraCents, 400);
 });

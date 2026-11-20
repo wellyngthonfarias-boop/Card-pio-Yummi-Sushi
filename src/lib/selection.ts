@@ -1,6 +1,7 @@
 import type { MenuProduct } from "@/types/menu";
 import type { SelectionDraft, SelectionLine } from "@/types/selection";
 import { getSelectionBlockReason } from "./product-selection.ts";
+import { COMPLEMENT_EXTRA_CENTS, isCourtesyComplement } from "./complement-policy.ts";
 
 export const MAX_QUANTITY = 99;
 export const MAX_LINES = 100;
@@ -80,8 +81,26 @@ export function restoreSelection(serialized: string | null, catalog: readonly Me
   } catch { return { lines: [], notices: ["Não foi possível recuperar a seleção anterior. Comece uma nova seleção."] }; }
 }
 
+export function priceSelection(lines: readonly SelectionLine[]) {
+  let courtesyRemaining = 1;
+  return lines.map((line) => {
+    if (!isCourtesyComplement(line.product)) return { ...line, courtesyQuantity: 0 };
+    const courtesyQuantity = Math.min(courtesyRemaining, line.quantity);
+    courtesyRemaining -= courtesyQuantity;
+    const baseUnitPriceCents = toCents(line.product.price!) + line.addons.reduce((sum, addon) => sum + toCents(addon.price), 0);
+    return { ...line, courtesyQuantity, unitPriceCents: baseUnitPriceCents + COMPLEMENT_EXTRA_CENTS,
+      subtotalCents: baseUnitPriceCents * line.quantity + (line.quantity - courtesyQuantity) * COMPLEMENT_EXTRA_CENTS };
+  });
+}
+
+export function complementQuote(lines: readonly SelectionLine[], quantity: number) {
+  const selected = lines.filter((line) => isCourtesyComplement(line.product)).reduce((sum, line) => sum + line.quantity, 0);
+  const courtesyQuantity = selected === 0 ? Math.min(quantity, 1) : 0;
+  return { courtesyQuantity, extraCents: (quantity - courtesyQuantity) * COMPLEMENT_EXTRA_CENTS };
+}
+
 export function selectionTotals(lines: readonly SelectionLine[]) {
-  return { quantity: lines.reduce((sum, line) => sum + line.quantity, 0), subtotalCents: lines.reduce((sum, line) => sum + line.subtotalCents, 0) };
+  return { quantity: lines.reduce((sum, line) => sum + line.quantity, 0), subtotalCents: priceSelection(lines).reduce((sum, line) => sum + line.subtotalCents, 0) };
 }
 
 export function changeLineQuantity(lines: readonly SelectionLine[], id: string, quantity: number, catalog: readonly MenuProduct[], allowDemo = false) {

@@ -9,6 +9,8 @@
 
 Regras e cálculos estão em `src/lib/selection.ts`. Preços são lidos exclusivamente do catálogo e convertidos para centavos inteiros. O armazenamento persiste IDs, quantidades, opções e observações, sem cópias de preços. Recuperação rejeita linhas inválidas, indisponíveis ou com configuração obsoleta e avisa o usuário.
 
+Complementos comerciais têm uma única unidade de cortesia por pedido, somando todos os sabores e linhas. O catálogo mantém o valor-base da cortesia (zero); `src/lib/complement-policy.ts` define o acréscimo de 200 centavos por unidade extra. `priceSelection` distribui a cortesia na ordem da seleção e deriva os subtotais atuais sem alterar o estado persistido. `selectionTotals`, a lista para o garçom e a mensagem do WhatsApp usam esses valores. Alterar quantidades, remover itens ou recuperar a seleção recalcula a regra; separar complementos em linhas diferentes não concede novas cortesias.
+
 Disponibilidade `unconfirmed` permite montar a lista, com aviso de confirmação pelo restaurante; `unavailable` bloqueia. Não há confirmação de estoque, envio automático de pedido, pagamento ou backend. A demonstração é isolada e identificada como fictícia.
 
 `whatsapp-order-action.tsx` apresenta o endereço de entrega antes de abrir a conversa oficial. Rua, número (ou S/N), CEP e bairro são obrigatórios. Os bairros e taxas oficiais ficam em `src/data/delivery.ts`, em centavos; `src/lib/delivery.ts` valida o endereço e resolve o frete pela tabela atual. Bairro ausente ou desconhecido bloqueia a finalização. O CEP tem validação de formato, sem consulta externa ou verificação de correspondência com a rua.

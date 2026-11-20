@@ -14,7 +14,7 @@ export const categories: MenuCategory[] = [
   { id: "temaki", label: "Temakis", description: "Disponíveis hot ou cru, nos sabores do cardápio." },
   { id: "uramaki", label: "Uramakis", description: "Porções de 5 peças." },
   { id: "porcoes", label: "Porções", description: "Para acompanhar." },
-  { id: "complementos", label: "Complementos", description: "Sunomono, gengibre e wasabi sem cobrança." },
+  { id: "complementos", label: "Complementos", description: "1 complemento de cortesia por pedido. Cada unidade extra custa R$ 2,00." },
   { id: "bebidas", label: "Bebidas", description: "Refrigerantes, água, cerveja e suco de laranja." },
 ];
 

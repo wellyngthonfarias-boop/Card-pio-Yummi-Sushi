@@ -190,6 +190,9 @@ header nav > a.hidden { display: none; }
 .selection-line { display: grid; grid-template-columns: 72px minmax(0, 1fr); gap: 14px; padding-block: 24px; border-top: 1px solid var(--border); }
 .selection-item-image { width: 72px; height: 64px; object-fit: cover; border-radius: 8px; background: var(--color-surface); }
 .selection-item-photo { object-fit: contain; }
+.complement-thumbnail { overflow: hidden; }
+.complement-thumbnail .product-visual { height: 100%; min-height: 0; border-radius: 8px; }
+.complement-thumbnail .visual-credit { display: none; }
 .selection-item-main { min-width: 0; overflow-wrap: anywhere; }
 .selection-item-main h3 { font-size: 1.125rem; font-weight: 600; }
 .selection-unit { margin-top: 6px; color: var(--color-muted); font-size: .875rem; line-height: 1.7; }
