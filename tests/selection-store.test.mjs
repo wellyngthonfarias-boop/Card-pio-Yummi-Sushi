@@ -5,6 +5,17 @@ import { createSelectionStore } from "../src/lib/selection-store.ts";
 
 const catalog = JSON.parse(readFileSync(new URL("../src/data/menu.json", import.meta.url), "utf8"));
 const draft = { id: "store-test", productId: "hot-salmao", quantity: 2, addonIds: [], choices: {}, notes: "Teste" };
+test("prato e complementos entram juntos e falhas não deixam pedido parcial", () => {
+  const storage = memoryStorage(); const store = createSelectionStore(catalog, false, () => storage);
+  const unsubscribe = store.subscribe(() => {});
+  const complement = { ...draft, id: "sun", productId: "sunomono", quantity: 2 };
+  assert.equal(store.addBatch([draft, { ...complement, productId: "removed" }]) !== null, true);
+  assert.equal(store.getSnapshot().lines.length, 0);
+  assert.equal(store.addBatch([draft, complement]), null);
+  assert.deepEqual(store.getSnapshot().lines.map((line) => line.productId), ["hot-salmao", "sunomono"]);
+  assert.equal(JSON.parse(storage.getItem(store.storageKey)).items.length, 2);
+  unsubscribe();
+});
 function memoryStorage() { const data = new Map(); let writes = 0; return { data, get writes() { return writes; }, getItem: (key) => data.get(key) ?? null, setItem: (key, value) => { data.set(key, value); writes++; } }; }
 
 test("snapshot de servidor é estável e vazio; inicialização recupera escolhas sem alterar o snapshot SSR", () => {

@@ -32,7 +32,21 @@ export function createSelectionStore(catalog: readonly MenuProduct[], demo: bool
       persist();
     } catch { update({ ready: true, storageWarning: "Seu navegador não permite salvar a seleção. Ela funcionará enquanto esta página estiver aberta." }); }
   }
+  function addBatch(drafts: readonly SelectionDraft[]): string | null {
+    if (!snapshot.ready) return "Aguarde a recuperação da seleção.";
+    if (!drafts.length || snapshot.lines.length + drafts.length > MAX_LINES) return "Limite de 100 itens diferentes na seleção.";
+    const additions: SelectionLine[] = [];
+    for (const draft of drafts) {
+      const result = resolveSelectionLine(draft, catalog, demo);
+      if (!result.ok) return result.error;
+      if ([...snapshot.lines, ...additions].some((line) => line.id === result.line.id)) return "Este item já foi adicionado.";
+      additions.push(result.line);
+    }
+    commit([...snapshot.lines, ...additions], additions.length === 1 ? `${additions[0].quantity} × ${additions[0].product.name} adicionado à seleção.` : "Prato e complementos adicionados à seleção.");
+    return null;
+  }
   return {
+    addBatch,
     storageKey,
     getSnapshot: () => snapshot,
     getServerSnapshot: () => serverSnapshot,

@@ -11,6 +11,7 @@ type SelectionContextValue = {
   message: string; storageWarning: string;
   open: () => void; close: () => void;
   add: (draft: SelectionDraft) => string | null;
+  addBatch: (drafts: readonly SelectionDraft[]) => string | null;
   setQuantity: (id: string, quantity: number) => void;
   remove: (id: string) => void; clear: () => void;
   deliveryAddress: DeliveryAddress;
@@ -33,7 +34,7 @@ export function SelectionProvider({ catalog, demo, children }: { catalog: readon
     ...snapshot, demo, opened,
     deliveryAddress, setDeliveryAddress,
     open: () => setOpened(true), close: () => setOpened(false),
-    add: store.add, setQuantity: store.setQuantity, remove: store.remove, clear: store.clear,
+    add: store.add, addBatch: store.addBatch, setQuantity: store.setQuantity, remove: store.remove, clear: store.clear,
   };
   return <SelectionContext.Provider value={value}>{children}</SelectionContext.Provider>;
 }

@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, type FormEvent, type ReactNode } from "react";
-import { comboChangeFee } from "@/data/menu";
+import { comboChangeFee, menuProducts } from "@/data/menu";
 import type { MenuProduct } from "@/types/menu";
 import { getSelectionBlockReason } from "@/lib/product-selection";
 import { complementQuote, formatCents, MAX_NOTES, toCents } from "@/lib/selection";
@@ -16,13 +16,21 @@ export function ProductSelectionForm({ product, onAdded, children }: { product: 
   const [choices, setChoices] = useState<Record<string, string[]>>({});
   const [notes, setNotes] = useState("");
   const [error, setError] = useState("");
+  const [complementQuantities, setComplementQuantities] = useState<Record<string, number>>({});
+  const availableComplements = !selection.demo && product.category !== "bebidas" && product.category !== "complementos" ? menuProducts.filter((item) => isCourtesyComplement(item)) : [];
+  const selectedComplements = availableComplements.filter((item) => (complementQuantities[item.id] ?? 0) > 0);
+  const complementCount = selectedComplements.reduce((sum, item) => sum + complementQuantities[item.id], 0);
+  const bundledQuote = complementQuote(selection.lines, complementCount);
   const blocked = getSelectionBlockReason(product, selection.demo);
   const unitPriceCents = product.price === null ? 0 : toCents(product.price) + product.optionalAddons.filter((addon) => addonIds.includes(addon.id)).reduce((sum, addon) => sum + toCents(addon.price), 0);
   const complement = isCourtesyComplement(product) ? complementQuote(selection.lines, quantity) : null;
 
   function submit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
-    const result = selection.add({ id: crypto.randomUUID(), productId: product.id, quantity, addonIds, choices, notes });
+    const result = selection.addBatch([
+      { id: crypto.randomUUID(), productId: product.id, quantity, addonIds, choices, notes },
+      ...selectedComplements.map((item) => ({ id: crypto.randomUUID(), productId: item.id, quantity: complementQuantities[item.id], addonIds: [], choices: {}, notes: "" })),
+    ]);
     if (result) setError(result); else onAdded();
   }
 
@@ -30,12 +38,13 @@ export function ProductSelectionForm({ product, onAdded, children }: { product: 
     <div className="product-scroll">{children}<div className="selection-fields">
     {product.options?.map((option, groupIndex) => <fieldset key={option.name}><legend>{option.name} {option.required !== false && <span className="field-hint">(obrigatório)</span>}</legend>{Array.from({ length: option.selections ?? 1 }, (_, index) => <label className="choice-label" key={index} htmlFor={`choice-${groupIndex}-${index}`}>{(option.selections ?? 1) > 1 ? `Temaki ${index + 1}` : "Escolha uma opção"}<select id={`choice-${groupIndex}-${index}`} required={option.required !== false} value={choices[option.name]?.[index] ?? ""} onChange={(event) => { const values = [...(choices[option.name] ?? [])]; values[index] = event.target.value; setChoices({ ...choices, [option.name]: values }); }}><option value="">Selecione</option>{option.values.map((value) => <option key={value}>{value}</option>)}</select></label>)}</fieldset>)}
     {product.optionalAddons.length > 0 && <fieldset><legend>Adicionais <span className="field-hint">(por unidade do produto)</span></legend>{product.optionalAddons.map((addon) => <label key={addon.id} className="addon-choice"><input type="checkbox" required={addon.required} disabled={addon.availability === "unavailable"} checked={addonIds.includes(addon.id)} onChange={(event) => setAddonIds(event.target.checked ? [...addonIds, addon.id] : addonIds.filter((id) => id !== addon.id))} /><span>{addon.name}{addon.required ? " · Obrigatório" : " · Opcional"}{addon.availability === "unavailable" ? " · Indisponível" : ""}</span><strong>{addon.price === 0 ? "Sem cobrança" : `+ ${formatCents(toCents(addon.price))}`}</strong></label>)}</fieldset>}
+    {availableComplements.length > 0 && <fieldset><legend>Complementos <span className="field-hint">(opcional)</span></legend><p className="field-hint">{COMPLEMENT_POLICY_TEXT} As quantidades abaixo são para o pedido.</p>{availableComplements.map((item) => <div key={item.id}><label className="addon-choice"><input type="checkbox" checked={(complementQuantities[item.id] ?? 0) > 0} disabled={item.availability === "unavailable"} onChange={(event) => setComplementQuantities({ ...complementQuantities, [item.id]: event.target.checked ? 1 : 0 })} /><span>{item.name}{item.availability === "unavailable" ? " · Indisponível" : ""}</span></label>{(complementQuantities[item.id] ?? 0) > 0 && <QuantityControl value={complementQuantities[item.id]} onChange={(value) => setComplementQuantities({ ...complementQuantities, [item.id]: value })} label={item.name} />}</div>)}{complementCount > 0 && <p className="field-hint" aria-live="polite">{bundledQuote.courtesyQuantity} cortesia · {complementCount - bundledQuote.courtesyQuantity} extra(s) · {formatCents(bundledQuote.extraCents)}</p>}</fieldset>}
     {complement && <p className="field-hint">{COMPLEMENT_POLICY_TEXT} {complement.courtesyQuantity > 0 ? "1 cortesia aplicada a esta seleção." : "A cortesia já está aplicada no pedido."}</p>}
     <div className="notes-label"><label htmlFor="product-notes">Observações <span className="field-hint">(opcional)</span></label><textarea id="product-notes" aria-describedby="product-notes-hint" value={notes} maxLength={MAX_NOTES} rows={2} placeholder="Ex.: sem cebolinha" onChange={(event) => setNotes(event.target.value)} /><span id="product-notes-hint" className="field-hint">{notes.length}/{MAX_NOTES} caracteres.</span></div>
     {(product.category === "combos" || product.category === "promocionais") && <p className="field-hint">Alterações em combos: {formatCents(toCents(comboChangeFee))}, sujeitas à confirmação do restaurante.</p>}
     </div></div>
     <div className="product-action-bar">
-    <div className="selection-config-bottom"><QuantityControl value={quantity} onChange={setQuantity} label={product.name} /><div><p className="price-label">Subtotal deste item</p><p className="price">{product.price === null ? "Consultar valor" : formatCents(unitPriceCents * quantity + (complement?.extraCents ?? 0))}</p></div></div>
+    <div className="selection-config-bottom"><QuantityControl value={quantity} onChange={setQuantity} label={product.name} /><div><p className="price-label">{complementCount ? "Subtotal com complementos" : "Subtotal deste item"}</p><p className="price">{product.price === null ? "Consultar valor" : formatCents(unitPriceCents * quantity + (complement?.extraCents ?? 0) + bundledQuote.extraCents)}</p></div></div>
     {error && <p role="alert" className="form-error">{error}</p>}
     {blocked && <p className="form-error">{blocked}</p>}
     <button type="submit" className="primary-button selection-submit" disabled={!!blocked || !selection.ready || product.optionalAddons.some((addon) => addon.required && addon.availability === "unavailable")}>{product.availability === "unavailable" ? "Produto indisponível" : "Adicionar à seleção"}</button>
