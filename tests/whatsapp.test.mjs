@@ -120,3 +120,15 @@ test("codifica endereço com acentos e caracteres reservados, aceita S/N e norma
   assert.ok(result.message.includes("Rua: Rua São João & José + Anexo\nNúmero: S/N\nCEP: 62000-000\nBairro: Sinhá Sabóia"));
   assert.ok(!result.message.includes("não inclui eventuais taxas"));
 });
+
+test("complemento é opcional, preserva acentos e não altera taxa ou total", () => {
+  for (const complement of [undefined, "", "   ", "  Apto 12, bloco São José & anexo  "]) {
+    const result = prepareDeliveryOrder([draft()], catalog, { ...address, complement });
+    assert.equal(result.ok, true);
+    assert.equal(result.message.includes("Complemento:"), !!complement?.trim());
+    if (complement?.trim()) assert.ok(result.message.includes(`Complemento: ${complement.trim()}`));
+    assert.ok(result.message.includes(`*TOTAL: ${formatCents(3798)}*`));
+    assert.equal(new URL(result.url).searchParams.get("text"), result.message);
+  }
+  for (const complement of ["x".repeat(121), 123, null]) assert.equal(prepareDeliveryOrder([draft()], catalog, { ...address, complement }).ok, false);
+});

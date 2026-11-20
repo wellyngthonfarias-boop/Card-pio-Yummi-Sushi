@@ -22,10 +22,12 @@ export function resolveDelivery(raw: unknown, zones: readonly DeliveryZone[]): D
   if (!street) return { ok: false, error: "Informe a rua (até 120 caracteres)." };
   const number = cleanAddressText(value.number, 20);
   if (!number) return { ok: false, error: "Informe o número ou S/N (até 20 caracteres)." };
+  const complement = value.complement === undefined || (typeof value.complement === "string" && !value.complement.trim()) ? "" : cleanAddressText(value.complement, 120);
+  if (complement === null) return { ok: false, error: "Informe um complemento com até 120 caracteres." };
   if (typeof value.postalCode !== "string" || !/^\d{5}-?\d{3}$/.test(value.postalCode.trim())) return { ok: false, error: "Informe um CEP com 8 dígitos." };
   const zone = zones.find((entry) => entry.id === value.zoneId);
   if (!zone) return { ok: false, error: "Selecione um bairro atendido na lista." };
   if (!Number.isSafeInteger(zone.feeCents) || zone.feeCents < 0) return { ok: false, error: "A taxa deste bairro precisa ser revisada pelo restaurante." };
-  const address: DeliveryAddress = { street, number, postalCode: formatPostalCode(value.postalCode), zoneId: zone.id };
+  const address: DeliveryAddress = { street, number, complement, postalCode: formatPostalCode(value.postalCode), zoneId: zone.id };
   return { ok: true, delivery: { address, neighborhood: zone.name, feeCents: zone.feeCents } };
 }

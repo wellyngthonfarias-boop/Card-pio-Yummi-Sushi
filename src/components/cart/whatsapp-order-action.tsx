@@ -53,6 +53,9 @@ export function WhatsAppOrderAction() {
               <input id="delivery-postal-code" name="postalCode" autoComplete="postal-code" inputMode="numeric" required pattern="[0-9]{5}-?[0-9]{3}" maxLength={9} placeholder="00000-000" value={address.postalCode} onChange={(event) => update("postalCode", formatPostalCode(event.target.value))} />
             </label>
           </div>
+          <label htmlFor="delivery-complement">Complemento (opcional)
+            <input id="delivery-complement" name="complement" autoComplete="address-line2" maxLength={120} placeholder="Ex.: apartamento, bloco ou ponto de referência" value={address.complement} onChange={(event) => update("complement", event.target.value)} />
+          </label>
           <label htmlFor="delivery-neighborhood">Bairro
             <select id="delivery-neighborhood" name="zoneId" required value={address.zoneId} onChange={(event) => update("zoneId", event.target.value)} aria-describedby="delivery-area-hint">
               <option value="">Selecione seu bairro</option>

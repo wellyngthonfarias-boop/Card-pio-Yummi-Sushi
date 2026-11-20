@@ -24,7 +24,7 @@ export function formatWhatsAppMessage(lines: readonly SelectionLine[], delivery:
   return [
     "🍣 *PEDIDO — YUMMI SUSHI DELIVERY*", "*Itens selecionados:*",
     ...items,
-    ["*Endereço de entrega:*", `Rua: ${delivery.address.street}`, `Número: ${delivery.address.number}`, `CEP: ${delivery.address.postalCode}`, `Bairro: ${delivery.neighborhood}`].join("\n"),
+    ["*Endereço de entrega:*", `Rua: ${delivery.address.street}`, `Número: ${delivery.address.number}`, ...(delivery.address.complement ? [`Complemento: ${delivery.address.complement}`] : []), `CEP: ${delivery.address.postalCode}`, `Bairro: ${delivery.neighborhood}`].join("\n"),
     [`*SUBTOTAL: ${formatCents(subtotalCents)}*`, `Taxa de entrega: ${formatCents(delivery.feeCents)}`, `*TOTAL: ${formatCents(totalCents)}*`].join("\n"),
     "Olá! Gostaria de confirmar meu pedido.",
   ].join("\n\n");

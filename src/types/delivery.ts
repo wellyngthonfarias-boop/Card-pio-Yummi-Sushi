@@ -7,6 +7,7 @@ export type DeliveryZone = {
 export type DeliveryAddress = {
   street: string;
   number: string;
+  complement: string;
   postalCode: string;
   zoneId: string;
 };
@@ -18,5 +19,5 @@ export type ResolvedDelivery = {
 };
 
 export const emptyDeliveryAddress: DeliveryAddress = {
-  street: "", number: "", postalCode: "", zoneId: "",
+  street: "", number: "", complement: "", postalCode: "", zoneId: "",
 };
