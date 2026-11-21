@@ -5,7 +5,7 @@ import { deliveryZones } from "../data/delivery.ts";
 import { resolveDelivery } from "./delivery.ts";
 import { resolvePayment } from "./payment.ts";
 import { formatCents, MAX_LINES, priceSelection, resolveSelectionLine, selectionTotals, toCents } from "./selection.ts";
-import { COMPLEMENT_EXTRA_CENTS, isCourtesyComplement } from "./complement-policy.ts";
+import { isCourtesyComplement } from "./complement-policy.ts";
 
 export const WHATSAPP_NUMBER = "5588992978164";
 export const WHATSAPP_DISPLAY_NUMBER = "+55 88 99297-8164";
@@ -13,14 +13,13 @@ export const WHATSAPP_DISPLAY_NUMBER = "+55 88 99297-8164";
 export function formatWhatsAppMessage(lines: readonly SelectionLine[], delivery: ResolvedDelivery): string {
   if (lines.length === 0) throw new Error("Adicione pelo menos um produto ao pedido.");
   const items = priceSelection(lines).map((line) => [
-    `${line.quantity}x ${line.product.name}`,
-    ...(line.product.unitLabel ? [`Apresentação: ${line.product.unitLabel}`] : []),
+    ...(isCourtesyComplement(line.product) ? [
+      ...(line.courtesyQuantity ? [`${line.product.name}: Complemento (cortesia)`] : []),
+      ...(line.quantity > line.courtesyQuantity ? [`${line.quantity - line.courtesyQuantity > 1 ? `${line.quantity - line.courtesyQuantity}x ` : ""}${line.product.name}: Complemento (${formatCents(line.subtotalCents)})`] : []),
+    ] : [`${line.quantity}x ${line.product.name}`]),
     ...Object.entries(line.choices).filter(([, values]) => values.length > 0).map(([name, values]) => `${name}: ${values.map((value, index) => values.length > 1 ? `${index + 1}º: ${value}` : value).join(" · ")}`),
     ...(line.addons.length ? [`Adicionais: ${line.addons.map((addon) => `${addon.name} (+ ${formatCents(toCents(addon.price))} por unidade)`).join(", ")}`] : []),
     ...(line.notes ? [`Observações: ${line.notes.replace(/\r?\n/g, "\n  ")}`] : []),
-    ...(line.courtesyQuantity ? [`Cortesia: ${line.courtesyQuantity} unidade de complemento`] : []),
-    ...(isCourtesyComplement(line.product) && line.quantity > line.courtesyQuantity ? [`Complementos extras: ${line.quantity - line.courtesyQuantity} × ${formatCents(COMPLEMENT_EXTRA_CENTS)}`] : []),
-    `Subtotal do item: ${formatCents(line.subtotalCents)}`,
   ].join("\n"));
   const subtotalCents = selectionTotals(lines).subtotalCents;
   const totalCents = subtotalCents + delivery.feeCents;
@@ -29,7 +28,7 @@ export function formatWhatsAppMessage(lines: readonly SelectionLine[], delivery:
   if (!Number.isSafeInteger(totalCents) || !Number.isSafeInteger(delivery.feeCents) || delivery.feeCents < 0) throw new Error("Total inválido.");
   return [
     "🍣 *PEDIDO — YUMMI SUSHI DELIVERY*", ...(delivery.address.customerName ? [`*Cliente:* ${delivery.address.customerName}`] : []), "*Itens selecionados:*",
-    ...items,
+    items.join("\n"),
     ["*Endereço de entrega:*", `Rua: ${delivery.address.street}`, `Número: ${delivery.address.number}`, ...(delivery.address.complement ? [`Complemento: ${delivery.address.complement}`] : []), `CEP: ${delivery.address.postalCode}`, `Bairro: ${delivery.neighborhood}`].join("\n"),
     [`*SUBTOTAL: ${formatCents(subtotalCents)}*`, `Taxa de entrega: ${formatCents(delivery.feeCents)}`, `*TOTAL: ${formatCents(totalCents)}*`].join("\n"),
     payment.message,

@@ -55,10 +55,8 @@ test("formata quantidades, adicionais, sabores e subtotal sem taxas inventadas",
   ], withAddons);
   assert.equal(result.ok, true);
   assert.ok(result.message.includes("2x Hot de salmão"));
-  assert.ok(result.message.includes("Apresentação: 5 peças"));
   assert.ok(result.message.includes(`Adicionais: Adicional de teste (+ ${formatCents(123)} por unidade)`));
   assert.ok(result.message.includes("Observações: Sem cebolinha"));
-  assert.ok(result.message.includes(`Subtotal do item: ${formatCents(3444)}`));
   assert.ok(result.message.includes("1x 10º Combo"));
   assert.ok(result.message.includes("Sabor do temaki: 1º: Salmão · 2º: Camarão"));
   assert.ok(result.message.includes(`*SUBTOTAL: ${formatCents(10444)}*`));
@@ -85,7 +83,6 @@ test("revalida catálogo no momento de preparar e ignora subtotais adulterados",
   const before = JSON.stringify(items);
   const result = prepareWhatsAppOrder(items, changed);
   assert.equal(result.ok, true);
-  assert.ok(result.message.includes(`Subtotal do item: ${formatCents(4000)}`));
   assert.ok(!result.message.includes("Nome falso"));
   assert.equal(JSON.stringify(items), before, "Não limpa nem altera a seleção");
 });
@@ -100,8 +97,6 @@ test("qualquer item inválido bloqueia todo o pedido e adicionais indisponíveis
 test("preserva apresentação das bebidas e complementos gratuitos", () => {
   const result = prepareWhatsAppOrder([draft({ productId: "coca-1l", quantity: 1 }), draft({ id: "free", productId: "wasabi", quantity: 1 })], catalog);
   assert.equal(result.ok, true);
-  assert.ok(result.message.includes("Apresentação: 1 litro"));
-  assert.ok(result.message.includes(`Subtotal do item: ${formatCents(0)}`));
   assert.ok(result.message.includes(`*SUBTOTAL: ${formatCents(800)}*`));
   assert.ok(!result.message.includes("Adicionais:"));
   assert.ok(!result.message.includes("Observações:"));
@@ -160,12 +155,18 @@ test("complemento é opcional, preserva acentos e não altera taxa ou total", ()
 test("WhatsApp inclui uma cortesia e cobra todos os complementos extras no subtotal e total", () => {
   const result = prepareDeliveryOrder([draft({ productId: "combo-1", quantity: 1 }), draft({ id: "sun", productId: "sunomono", quantity: 2 }), draft({ id: "ginger", productId: "gengibre", quantity: 1 })], catalog, address);
   assert.equal(result.ok, true);
-  assert.equal(result.message.match(/Cortesia: 1 unidade de complemento/g).length, 1);
-  assert.equal(result.message.match(/Complementos extras: 1 ×/g).length, 2);
   assert.ok(result.message.includes(`*SUBTOTAL: ${formatCents(2900)}*`));
   assert.ok(result.message.includes(`Taxa de entrega: ${formatCents(600)}`));
   assert.ok(result.message.includes(`*TOTAL: ${formatCents(3500)}*`));
   const onlyComplements = prepareDeliveryOrder([draft({ productId: "wasabi", quantity: 3, subtotalCents: 0 })], catalog, address);
   assert.ok(onlyComplements.message.includes(`*SUBTOTAL: ${formatCents(400)}*`));
   assert.ok(onlyComplements.message.includes(`*TOTAL: ${formatCents(1000)}*`));
+});
+test("mensagem compacta mantém escolhas e remove informações repetidas", () => {
+ const result=prepareDeliveryOrder([draft({productId:"combo-1",quantity:1}),draft({id:"sun",productId:"sunomono",quantity:1}),draft({id:"ginger",productId:"gengibre",quantity:1})],catalog,address);
+ assert.equal(result.ok,true);
+ assert.ok(result.message.includes("1x 1º Combo\nSunomono: Complemento (cortesia)\nGengibre: Complemento ("+formatCents(200)+")"));
+ assert.ok(!result.message.includes("Apresentação:"));
+ assert.ok(!result.message.includes("Subtotal do item:"));
+ assert.ok(result.message.includes("*SUBTOTAL: "+formatCents(2700)+"*"));
 });
