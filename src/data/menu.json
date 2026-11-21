@@ -2,7 +2,7 @@
   {
     "id": "combo-1",
     "category": "combos",
-    "name": "1º Combo",
+    "name": "Combo 1",
     "price": 25,
     "unitLabel": "10 peças",
     "description": "",
@@ -40,7 +40,7 @@
   {
     "id": "combo-2",
     "category": "combos",
-    "name": "2º Combo",
+    "name": "Combo 2",
     "price": 48,
     "unitLabel": "21 peças",
     "description": "",
@@ -96,7 +96,7 @@
   {
     "id": "combo-3",
     "category": "combos",
-    "name": "3º Combo",
+    "name": "Combo 3",
     "price": 58,
     "unitLabel": "25 peças",
     "description": "",
@@ -152,7 +152,7 @@
   {
     "id": "combo-4",
     "category": "combos",
-    "name": "4º Combo",
+    "name": "Combo 4",
     "price": 85,
     "unitLabel": "34 peças",
     "description": "",
@@ -218,7 +218,7 @@
   {
     "id": "combo-5",
     "category": "promocionais",
-    "name": "5º Combo",
+    "name": "Combo 5",
     "price": 45,
     "unitLabel": "20 peças",
     "description": "",
@@ -251,7 +251,7 @@
   {
     "id": "combo-6",
     "category": "promocionais",
-    "name": "6º Combo",
+    "name": "Combo 6",
     "price": 45,
     "unitLabel": "20 peças",
     "description": "",
@@ -284,7 +284,7 @@
   {
     "id": "combo-7",
     "category": "promocionais",
-    "name": "7º Combo",
+    "name": "Combo 7",
     "price": 45,
     "unitLabel": "22 peças",
     "description": "",
@@ -322,7 +322,7 @@
   {
     "id": "combo-8",
     "category": "promocionais",
-    "name": "8º Combo",
+    "name": "Combo 8",
     "price": 45,
     "unitLabel": "20 peças",
     "description": "",
@@ -355,7 +355,7 @@
   {
     "id": "combo-9",
     "category": "promocionais",
-    "name": "9º Combo",
+    "name": "Combo 9",
     "price": 35,
     "unitLabel": "18 peças",
     "description": "",
@@ -393,7 +393,7 @@
   {
     "id": "combo-10",
     "category": "promocionais",
-    "name": "10º Combo",
+    "name": "Combo 10",
     "price": 70,
     "unitLabel": "2 temakis",
     "description": "Dois temakis com sabores à escolha: salmão, misto ou camarão.",
@@ -425,7 +425,7 @@
   {
     "id": "combo-11",
     "category": "promocionais",
-    "name": "11º Combo",
+    "name": "Combo 11",
     "price": 40,
     "unitLabel": "Temaki + Coca-Cola lata",
     "description": "Temaki de salmão, misto ou camarão à escolha, acompanhado de Coca-Cola em lata.",
@@ -456,7 +456,7 @@
   {
     "id": "combo-12",
     "category": "promocionais",
-    "name": "12º Combo",
+    "name": "Combo 12",
     "price": 45,
     "unitLabel": "20 hots",
     "description": "20 hots de camarão ou 20 hots de salmão.",
@@ -486,7 +486,7 @@
   {
     "id": "combo-13",
     "category": "promocionais",
-    "name": "13º Combo",
+    "name": "Combo 13",
     "price": 35,
     "unitLabel": "15 peças",
     "description": "",
@@ -519,7 +519,7 @@
   {
     "id": "combo-14",
     "category": "promocionais",
-    "name": "14º Combo",
+    "name": "Combo 14",
     "price": 30,
     "unitLabel": "12 peças",
     "description": "",
