@@ -47,8 +47,8 @@ test("sabores e preparo precisam de escolhas válidas, incluindo os dois temakis
   assert.equal(resolveSelectionLine({ ...combo, choices: { "Sabor do temaki": ["Salmão"] } }, catalog).ok, false);
   assert.equal(resolved({ ...combo, choices: { "Sabor do temaki": ["Salmão", "Camarão"] } }).subtotalCents, 7000);
   assert.equal(resolveSelectionLine({ ...combo, choices: { "Sabor do temaki": ["Kani", "Salmão"] } }, catalog).ok, false);
-  assert.equal(resolveSelectionLine(draft({ productId: "temaki-salmao" }), catalog).ok, false);
-  assert.equal(resolved(draft({ productId: "temaki-salmao", choices: { Preparo: ["Cru"] } })).unitPriceCents, 3700);
+  assert.equal(resolveSelectionLine(draft({ productId: "temaki-salmao" }), catalog).ok, true);
+  assert.equal(resolved(draft({ productId: "temaki-salmao", choices: {} })).unitPriceCents, 3700);
   assert.equal(resolveSelectionLine(draft({ productId: "combo-12" }), catalog).ok, false);
   assert.equal(resolved(draft({ productId: "combo-12", choices: { "Sabor dos 20 hots": ["Camarão"] } })).subtotalCents, 4500);
 });

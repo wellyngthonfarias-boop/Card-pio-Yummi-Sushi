@@ -1,0 +1,13 @@
+import {mkdir,writeFile} from "node:fs/promises";
+import {separateTemakis} from "../src/lib/temaki-variants.ts";
+import {validCatalog} from "../src/lib/catalog-document.ts";
+const response=await fetch("https://yummi-sushi-delivery.pages.dev/api/catalog",{cache:"no-store"});
+if(!response.ok)throw new Error("Não foi possível consultar o catálogo.");
+const original=await response.json();if(!validCatalog(original))throw new Error("Catálogo inválido.");
+const next={...original,products:separateTemakis(original.products)};
+if(!validCatalog(next))throw new Error("Atualização inválida.");
+await mkdir("outputs",{recursive:true});
+await writeFile("outputs/catalog-temakis-backup.json",JSON.stringify(original,null,2));
+const quote=s=>String.fromCharCode(39)+s.replaceAll(String.fromCharCode(39),String.fromCharCode(39).repeat(2))+String.fromCharCode(39);
+await writeFile("outputs/update-temakis.sql",`UPDATE menu_document SET body=${quote(JSON.stringify(next))},revision=revision+1 WHERE id=1 AND revision=${original.revision};`);
+console.log(`Atualização preparada com revisão ${original.revision}; ${next.products.filter(p=>p.category==="temaki").length} temakis. Aplicar somente após publicar a foto. Se houver conflito de revisão, gerar novamente.`);

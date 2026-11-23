@@ -10,9 +10,9 @@ import { resolveSelectionLine } from "../src/lib/selection.ts";
 const products = JSON.parse(readFileSync(new URL("../src/data/menu.json", import.meta.url), "utf8"));
 const categories = [...new Set(products.map((p) => p.category))].map((id) => ({ id, label: id, description: "" }));
 
-test("catálogo real preserva 56 IDs únicos e não inclui dados fictícios ou estoque presumido", () => {
-  assert.equal(products.length, 56);
-  assert.equal(new Set(products.map((p) => p.id)).size, 56);
+test("catálogo real preserva 60 IDs únicos e não inclui dados fictícios ou estoque presumido", () => {
+  assert.equal(products.length, 60);
+  assert.equal(new Set(products.map((p) => p.id)).size, 60);
   for (const product of products) {
     assert.equal(product.source, "restaurant-menu");
     assert.equal(product.availability, "unconfirmed");
@@ -28,7 +28,7 @@ test("catálogo real preserva 56 IDs únicos e não inclui dados fictícios ou e
 });
 
 test("filtros mantêm as categorias e a ordem dos itens, inclusive com pesquisa vazia", () => {
-  assert.equal(filterMenuProducts(products, categories, "todos", "   ").length, 56);
+  assert.equal(filterMenuProducts(products, categories, "todos", "   ").length, 60);
   for (const category of categories) {
     assert.deepEqual(filterMenuProducts(products, categories, category.id, ""), products.filter((p) => p.category === category.id));
   }

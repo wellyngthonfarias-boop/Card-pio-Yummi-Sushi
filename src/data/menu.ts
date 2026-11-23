@@ -11,7 +11,7 @@ export const categories: MenuCategory[] = [
   { id: "hossomaki", label: "Hossomakis", description: "Porções de 5 peças com salmão, camarão ou kani." },
   { id: "especiais", label: "Sushis especiais", description: "Gunkans em porções de 2 unidades." },
   { id: "niguiri", label: "Niguiris", description: "Porções de 2 unidades." },
-  { id: "temaki", label: "Temakis", description: "Disponíveis hot ou cru, nos sabores do cardápio." },
+  { id: "temaki", label: "Temakis", description: "Tradicionais e Hot em opções separadas, nos sabores do cardápio." },
   { id: "uramaki", label: "Uramakis", description: "Porções de 5 peças." },
   { id: "porcoes", label: "Porções", description: "Para acompanhar." },
   { id: "complementos", label: "Complementos", description: "1 complemento de cortesia por pedido. Cada unidade extra custa R$ 2,00." },

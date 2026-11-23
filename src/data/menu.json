@@ -997,7 +997,7 @@
     "category": "temaki",
     "name": "Temaki de kani",
     "price": 37,
-    "unitLabel": "Hot ou cru",
+    "unitLabel": "1 unidade",
     "description": "Arroz, queijo, kani, cebolinha e gergelim.",
     "sourcePage": 5,
     "image": "/images/promocionais/temaki-kani.webp",
@@ -1014,15 +1014,7 @@
     ],
     "pieceCount": null,
     "imageKind": "illustration",
-    "options": [
-      {
-        "name": "Preparo",
-        "values": [
-          "Hot",
-          "Cru"
-        ]
-      }
-    ],
+    "options": [],
     "imageLayout": "poster",
     "imageWidth": 900,
     "imageHeight": 1200,
@@ -1033,7 +1025,7 @@
     "category": "temaki",
     "name": "Temaki de camarão",
     "price": 37,
-    "unitLabel": "Hot ou cru",
+    "unitLabel": "1 unidade",
     "description": "Arroz, queijo, camarão, cebolinha e gergelim.",
     "sourcePage": 5,
     "image": "/images/promocionais/temaki-camarao.webp",
@@ -1050,15 +1042,7 @@
     ],
     "pieceCount": null,
     "imageKind": "illustration",
-    "options": [
-      {
-        "name": "Preparo",
-        "values": [
-          "Hot",
-          "Cru"
-        ]
-      }
-    ],
+    "options": [],
     "imageLayout": "poster",
     "imageWidth": 900,
     "imageHeight": 1200,
@@ -1069,7 +1053,7 @@
     "category": "temaki",
     "name": "Temaki de salmão",
     "price": 37,
-    "unitLabel": "Hot ou cru",
+    "unitLabel": "1 unidade",
     "description": "Arroz, queijo, salmão, cebolinha e gergelim.",
     "sourcePage": 5,
     "image": "/images/promocionais/temaki-salmao.webp",
@@ -1086,15 +1070,7 @@
     ],
     "pieceCount": null,
     "imageKind": "illustration",
-    "options": [
-      {
-        "name": "Preparo",
-        "values": [
-          "Hot",
-          "Cru"
-        ]
-      }
-    ],
+    "options": [],
     "imageLayout": "poster",
     "imageWidth": 900,
     "imageHeight": 1200,
@@ -1105,7 +1081,7 @@
     "category": "temaki",
     "name": "Temaki misto",
     "price": 37,
-    "unitLabel": "Hot ou cru",
+    "unitLabel": "1 unidade",
     "description": "Arroz, queijo, salmão, camarão e cebolinha.",
     "sourcePage": 5,
     "image": "/images/promocionais/temaki-misto.webp",
@@ -1122,15 +1098,7 @@
     ],
     "pieceCount": null,
     "imageKind": "illustration",
-    "options": [
-      {
-        "name": "Preparo",
-        "values": [
-          "Hot",
-          "Cru"
-        ]
-      }
-    ],
+    "options": [],
     "imageLayout": "poster",
     "imageWidth": 900,
     "imageHeight": 1200,
@@ -1609,5 +1577,101 @@
     "imageWidth": 900,
     "imageHeight": 1200,
     "imagePrice": 6
+  },
+  {
+    "id": "temaki-kani-hot",
+    "category": "temaki",
+    "name": "Temaki de kani Hot",
+    "price": 37,
+    "unitLabel": "1 unidade",
+    "description": "Temaki Hot empanado. Arroz, queijo, kani, cebolinha e gergelim.",
+    "sourcePage": 5,
+    "image": "/images/products/temaki-hot-yummi.webp",
+    "source": "restaurant-menu",
+    "availability": "unconfirmed",
+    "featured": false,
+    "optionalAddons": [],
+    "ingredients": [
+      "Arroz",
+      "Queijo",
+      "Kani",
+      "Cebolinha",
+      "Gergelim"
+    ],
+    "pieceCount": null,
+    "imageKind": "illustration",
+    "options": []
+  },
+  {
+    "id": "temaki-camarao-hot",
+    "category": "temaki",
+    "name": "Temaki de camarão Hot",
+    "price": 37,
+    "unitLabel": "1 unidade",
+    "description": "Temaki Hot empanado. Arroz, queijo, camarão, cebolinha e gergelim.",
+    "sourcePage": 5,
+    "image": "/images/products/temaki-hot-yummi.webp",
+    "source": "restaurant-menu",
+    "availability": "unconfirmed",
+    "featured": false,
+    "optionalAddons": [],
+    "ingredients": [
+      "Arroz",
+      "Queijo",
+      "Camarão",
+      "Cebolinha",
+      "Gergelim"
+    ],
+    "pieceCount": null,
+    "imageKind": "illustration",
+    "options": []
+  },
+  {
+    "id": "temaki-salmao-hot",
+    "category": "temaki",
+    "name": "Temaki de salmão Hot",
+    "price": 37,
+    "unitLabel": "1 unidade",
+    "description": "Temaki Hot empanado. Arroz, queijo, salmão, cebolinha e gergelim.",
+    "sourcePage": 5,
+    "image": "/images/products/temaki-hot-yummi.webp",
+    "source": "restaurant-menu",
+    "availability": "unconfirmed",
+    "featured": false,
+    "optionalAddons": [],
+    "ingredients": [
+      "Arroz",
+      "Queijo",
+      "Salmão",
+      "Cebolinha",
+      "Gergelim"
+    ],
+    "pieceCount": null,
+    "imageKind": "illustration",
+    "options": []
+  },
+  {
+    "id": "temaki-misto-hot",
+    "category": "temaki",
+    "name": "Temaki misto Hot",
+    "price": 37,
+    "unitLabel": "1 unidade",
+    "description": "Temaki Hot empanado. Arroz, queijo, salmão, camarão e cebolinha.",
+    "sourcePage": 5,
+    "image": "/images/products/temaki-hot-yummi.webp",
+    "source": "restaurant-menu",
+    "availability": "unconfirmed",
+    "featured": false,
+    "optionalAddons": [],
+    "ingredients": [
+      "Arroz",
+      "Queijo",
+      "Salmão",
+      "Camarão",
+      "Cebolinha"
+    ],
+    "pieceCount": null,
+    "imageKind": "illustration",
+    "options": []
   }
 ]
