@@ -4,7 +4,7 @@ WITH target AS (
   WHERE m.id=1 AND json_extract(j.value,'$.id')='batata'
 )
 UPDATE menu_document SET body=json_remove(json_set(body,
-  '$.products['||(SELECT idx FROM target)||'].image','/images/products/batata-frita-yummi.webp',
+  '$.products['||(SELECT idx FROM target)||'].image','/images/products/batata-frita-generosa.webp',
   '$.products['||(SELECT idx FROM target)||'].imageKind','illustration',
   '$.products['||(SELECT idx FROM target)||'].imageWidth',1200,
   '$.products['||(SELECT idx FROM target)||'].imageHeight',900),
