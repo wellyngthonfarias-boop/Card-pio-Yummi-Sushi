@@ -1221,11 +1221,9 @@
     "ingredients": [],
     "pieceCount": null,
     "imageKind": "illustration",
-    "image": "/images/promocionais/batata.webp",
-    "imageLayout": "poster",
-    "imageWidth": 900,
-    "imageHeight": 1200,
-    "imagePrice": 15.99
+    "image": "/images/products/batata-frita-yummi.webp",
+    "imageWidth": 1200,
+    "imageHeight": 900
   },
   {
     "id": "sunomono",

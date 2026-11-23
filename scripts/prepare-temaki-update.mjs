@@ -1,7 +1,7 @@
 import {mkdir,writeFile} from "node:fs/promises";
 import {separateTemakis} from "../src/lib/temaki-variants.ts";
 import {validCatalog} from "../src/lib/catalog-document.ts";
-const response=await fetch("https://yummi-sushi-delivery.pages.dev/api/catalog",{cache:"no-store"});
+const response=await globalThis.fetch("https://yummi-sushi-delivery.pages.dev/api/catalog",{cache:"no-store"});
 if(!response.ok)throw new Error("Não foi possível consultar o catálogo.");
 const original=await response.json();if(!validCatalog(original))throw new Error("Catálogo inválido.");
 const next={...original,products:separateTemakis(original.products)};
