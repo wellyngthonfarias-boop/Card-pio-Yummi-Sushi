@@ -869,23 +869,26 @@
   {
     "id": "gunkan-shake",
     "category": "especiais",
-    "name": "Gunkan shake",
+    "name": "Gunkan Shaker",
     "price": 7.99,
     "unitLabel": "2 unidades",
-    "description": "",
+    "description": "Salmão, cream cheese, cebolinha e gergelim.",
     "sourcePage": 5,
     "source": "restaurant-menu",
     "availability": "unconfirmed",
     "featured": false,
     "optionalAddons": [],
-    "ingredients": [],
+    "ingredients": [
+      "Salmão",
+      "Cream cheese",
+      "Cebolinha",
+      "Gergelim"
+    ],
     "pieceCount": 2,
     "imageKind": "illustration",
-    "image": "/images/promocionais/gunkan-shake.webp",
-    "imageLayout": "poster",
-    "imageWidth": 900,
-    "imageHeight": 1200,
-    "imagePrice": 7.99
+    "image": "/images/products/gunkan-shaker-yummi.webp",
+    "imageWidth": 1200,
+    "imageHeight": 900
   },
   {
     "id": "gunkan-kani",
